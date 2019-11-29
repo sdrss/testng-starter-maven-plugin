@@ -18,6 +18,7 @@ public enum TestParameters {
 	parallel,
 	randomizeSuites,
 	testSuites,
+	testSuitesPostBuild,
 	retryFailures,
 	
 	reportNGListener,
@@ -35,4 +36,5 @@ public enum TestParameters {
 	testRetry,
 	
 	systemProperties
+
 }

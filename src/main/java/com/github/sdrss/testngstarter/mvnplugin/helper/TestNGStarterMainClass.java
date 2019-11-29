@@ -21,9 +21,12 @@ public final class TestNGStarterMainClass {
 	
 	public static final Logger logger = LoggerFactory.getLogger(TestNGStarterMainClass.class);
 	public static final String STRIPE = "===============================================";
-	
+	public static final String testNG_Retry_Suite_Name = "testng-failed.xml";
+	public static final String testNG_Retry_Path = "_RetryFailures";
+	public static final String testNG_Post_Path = "_Post";
 	static Boolean isJunit = null;
 	static Boolean retryFailures = false;
+	static Boolean postBuildSuites = false;
 	static Boolean useReportNG = false;
 	static Boolean failOnError = false;
 	static String testOutputDirectory = "";
@@ -38,24 +41,41 @@ public final class TestNGStarterMainClass {
 			initReportNG(tng, properties);
 		}
 		setSystemProperties(properties);
-		// Run
 		tng.run();
 		// Get Status
 		int status = tng.getStatus();
 		logger.info("TestNG status is : [ " + TestNGStatus.TestNGStatusGet(status) + " ] ");
 		// Print Summary
 		printSummary();
+		// Execute testng-failed.xml
 		if (retryFailures) {
-			// Execute testng-failed.xml
 			tng = new TestNG();
-			properties.setProperty(TestParameters.testSuites.name(), testOutputDirectory + "/testng-failed.xml");
-			properties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + "_RetryFailures");
-			initTestNG(tng, properties);
+			Properties retryProperties = new Properties();
+			retryProperties.putAll(properties);
+			retryProperties.setProperty(TestParameters.testSuites.name(), testOutputDirectory + "/" + testNG_Retry_Suite_Name);
+			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Retry_Path);
+			initTestNG(tng, retryProperties);
 			if (useReportNG) {
-				initReportNG(tng, properties);
+				initReportNG(tng, retryProperties);
 			}
-			setSystemProperties(properties);
-			// Run
+			setSystemProperties(retryProperties);
+			tng.run();
+		}
+		// Execute Post Suites
+		if (postBuildSuites) {
+			tng = new TestNG();
+			Properties postProperties = new Properties();
+			postProperties.putAll(properties);
+			postProperties.setProperty(TestParameters.testSuites.name(), properties.getProperty(TestParameters.testSuitesPostBuild.name()));
+			postProperties.setProperty(TestParameters.testSuitesPostBuild.name(), "");
+			reportNGOutputDirectory = reportNGOutputDirectory.replace(testNG_Retry_Path, "");
+			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Post_Path);
+			postProperties.setProperty(TestParameters.retryFailures.name(), "false");
+			initTestNG(tng, postProperties);
+			if (useReportNG) {
+				initReportNG(tng, postProperties);
+			}
+			setSystemProperties(postProperties);
 			tng.run();
 		}
 		if (failOnError) {
@@ -475,6 +495,22 @@ public final class TestNGStarterMainClass {
 				throw new IllegalStateException("No suite files were specified");
 			}
 		}
+		
+		if (properties.get(TestParameters.testSuitesPostBuild.name()) == null) {
+			postBuildSuites = false;
+		} else {
+			try {
+				String testSuitesCommaSeparated = (String) properties.get(TestParameters.testSuitesPostBuild.name());
+				if (testSuitesCommaSeparated.isEmpty()) {
+					postBuildSuites = false;
+				} else {
+					postBuildSuites = true;
+				}
+			} catch (Exception ex) {
+				logger.debug(TestParameters.testSuitesPostBuild.name(), ex);
+			}
+		}
+		
 		// Set Listeners
 		tng.setListenerClasses(listenerClasses);
 		// Print
