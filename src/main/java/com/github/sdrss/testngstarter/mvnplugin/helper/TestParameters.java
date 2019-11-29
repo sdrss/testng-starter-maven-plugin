@@ -21,6 +21,7 @@ public enum TestParameters {
 	retryFailures,
 	
 	reportNGListener,
+	reportNGOutputDirectory,
 	failFast,
 	failOnErrors,
 	showPassedConfigurations,

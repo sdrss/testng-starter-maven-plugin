@@ -26,6 +26,8 @@ public final class TestNGStarterMainClass {
 	static Boolean retryFailures = false;
 	static Boolean useReportNG = false;
 	static Boolean failOnError = false;
+	static String testOutputDirectory = "";
+	static String reportNGOutputDirectory = "";
 	
 	public static void execute(Properties properties) {
 		// Initialize
@@ -45,6 +47,16 @@ public final class TestNGStarterMainClass {
 		printSummary();
 		if (retryFailures) {
 			// Execute testng-failed.xml
+			tng = new TestNG();
+			properties.setProperty(TestParameters.testSuites.name(), testOutputDirectory + "/testng-failed.xml");
+			properties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + "_RetryFailures");
+			initTestNG(tng, properties);
+			if (useReportNG) {
+				initReportNG(tng, properties);
+			}
+			setSystemProperties(properties);
+			// Run
+			tng.run();
 		}
 		if (failOnError) {
 			Execution.abort();
@@ -70,6 +82,17 @@ public final class TestNGStarterMainClass {
 	}
 	
 	private static void initReportNG(TestNG tng, Properties properties) {
+		if (properties.get(TestParameters.reportNGOutputDirectory.name()) != null) {
+			try {
+				System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH, (String) properties.get(TestParameters.reportNGOutputDirectory.name()));
+			} catch (Exception ex) {
+				logger.debug(TestParameters.reportNGOutputDirectory.name(), ex);
+			}
+		} else {
+			System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH, (String) properties.get(TestParameters.reportNGOutputDirectory.name()));
+		}
+		reportNGOutputDirectory = System.getProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH);
+		
 		if (properties.get(TestParameters.showPassedConfigurations.name()) != null) {
 			try {
 				if ((Boolean) properties.get(TestParameters.showPassedConfigurations.name())) {
@@ -196,6 +219,7 @@ public final class TestNGStarterMainClass {
 		} else {
 			tng.setOutputDirectory(TestNG.DEFAULT_OUTPUTDIR);
 		}
+		testOutputDirectory = tng.getOutputDirectory();
 		
 		if (properties.get(TestParameters.preserveOrder.name()) != null) {
 			try {
@@ -349,7 +373,7 @@ public final class TestNGStarterMainClass {
 				logger.debug(TestParameters.listeners.name(), ex);
 			}
 		}
-		// Retry FAilures Listener to create testng-failed.xml file
+		// Retry Failures Listener to create testng-failed.xml file
 		if (properties.get(TestParameters.retryFailures.name()) != null) {
 			try {
 				if ((Boolean) properties.get(TestParameters.retryFailures.name())) {

@@ -62,6 +62,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "reportNGListener", defaultValue = "true")
 	private Boolean reportNGListener;
 	
+	@Parameter(property = "reportNGOutputDirectory", defaultValue = "html")
+	private String reportNGOutputDirectory;
+	
 	@Parameter(property = "retryFailures", defaultValue = "false")
 	private Boolean retryFailures;
 	
@@ -127,6 +130,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		} else {
 			properties.put(TestParameters.testSuites.name(), "");
 		}
+		properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);
 		properties.put(TestParameters.failFast.name(), failFast);
 		properties.put(TestParameters.failOnErrors.name(), failOnErrors);
 		properties.put(TestParameters.retryFailures.name(), retryFailures);
