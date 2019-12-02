@@ -70,7 +70,7 @@ public final class TestNGStarterMainClass {
 			postProperties.setProperty(TestParameters.suiteXmlFilesPostBuild.name(), "");
 			reportNGOutputDirectory = reportNGOutputDirectory.replace(testNG_Retry_Path, "");
 			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Post_Path);
-			postProperties.setProperty(TestParameters.retryTestFailures.name(), "false");
+			postProperties.setProperty(TestParameters.executeTestngFailedxml.name(), "false");
 			initTestNG(tng, postProperties);
 			if (useReportNG) {
 				initReportNG(tng, postProperties);
@@ -355,9 +355,9 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		// Retry Listener
-		if (properties.get(TestParameters.retryFailures.name()) != null) {
+		if (properties.get(TestParameters.maxTestRetryFailures.name()) != null) {
 			try {
-				Integer testRetry = (Integer) properties.get(TestParameters.retryFailures.name());
+				Integer testRetry = (Integer) properties.get(TestParameters.maxTestRetryFailures.name());
 				if (testRetry > 0) {
 					if (!listenerClasses.contains(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class)) {
 						listenerClasses.add(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class);
@@ -367,7 +367,7 @@ public final class TestNGStarterMainClass {
 					System.setProperty(HTMLReporter.TEST_MAX_RETRY_COUNT, "0");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.retryFailures.name(), ex);
+				logger.debug(TestParameters.maxTestRetryFailures.name(), ex);
 			}
 		}
 		// Fail Fast Listener
@@ -395,16 +395,16 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		// Retry Failures Listener to create testng-failed.xml file
-		if (properties.get(TestParameters.retryTestFailures.name()) != null) {
+		if (properties.get(TestParameters.executeTestngFailedxml.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.retryTestFailures.name())) {
+				if ((Boolean) properties.get(TestParameters.executeTestngFailedxml.name())) {
 					listenerClasses.add(org.testng.reporters.FailedReporter.class);
 					retryFailures = true;
 				} else {
 					logger.debug("Do nothing");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.retryTestFailures.name(), ex);
+				logger.debug(TestParameters.executeTestngFailedxml.name(), ex);
 			}
 		}
 		if (properties.get(TestParameters.excludedGroups.name()) != null) {

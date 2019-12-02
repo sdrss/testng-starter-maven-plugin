@@ -56,7 +56,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "isJUnit", defaultValue = "false")
 	private Boolean isJUnit;
 	
-	@Parameter(property = "parallel", defaultValue = "false")
+	@Parameter(property = "parallel", defaultValue = "NONE")
 	private String parallel;
 	
 	@Parameter(property = "randomizeSuites", defaultValue = "false")
@@ -68,8 +68,8 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "reportNGOutputDirectory", defaultValue = "html")
 	private String reportNGOutputDirectory;
 	
-	@Parameter(property = "retryTestFailures", defaultValue = "false")
-	private Boolean retryTestFailures;
+	@Parameter(property = "executeTestngFailedxml", defaultValue = "false")
+	private Boolean executeTestngFailedxml;
 	
 	@Parameter(property = "failFast", defaultValue = "false")
 	private Boolean failFast;
@@ -92,8 +92,8 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "globalTestTimeOut", defaultValue = "0")
 	private Long globalTestTimeOut;
 	
-	@Parameter(property = "retryFailures", defaultValue = "0")
-	private Integer retryFailures;
+	@Parameter(property = "maxTestRetryFailures", defaultValue = "0")
+	private Integer maxTestRetryFailures;
 	
 	@Parameter(property = "systemProperties")
 	private List<String> systemProperties;
@@ -141,12 +141,12 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);
 		properties.put(TestParameters.failFast.name(), failFast);
 		properties.put(TestParameters.failOnErrors.name(), failOnErrors);
-		properties.put(TestParameters.retryTestFailures.name(), retryTestFailures);
+		properties.put(TestParameters.executeTestngFailedxml.name(), executeTestngFailedxml);
 		properties.put(TestParameters.showPassedConfigurations.name(), showPassedConfigurations);
 		properties.put(TestParameters.handleKnownDefectsAsFailures.name(), handleKnownDefectsAsFailures);
 		properties.put(TestParameters.reportNGhtmlReportTitle.name(), reportNGhtmlReportTitle);
 		properties.put(TestParameters.globalTestTimeOut.name(), globalTestTimeOut);
-		properties.put(TestParameters.retryFailures.name(), retryFailures);
+		properties.put(TestParameters.maxTestRetryFailures.name(), maxTestRetryFailures);
 		properties.put(TestParameters.systemProperties.name(), systemProperties);
 		
 		if (getLog().isDebugEnabled()) {

@@ -19,7 +19,7 @@ public enum TestParameters {
 	randomizeSuites,
 	suiteXmlFiles,
 	suiteXmlFilesPostBuild,
-	retryTestFailures,
+	executeTestngFailedxml,
 	
 	generateReportNGhtmlReport,
 	reportNGOutputDirectory,
@@ -33,7 +33,7 @@ public enum TestParameters {
 	reportNGhtmlReportTitle,
 	argumentsTitle,
 	globalTestTimeOut,
-	retryFailures,
+	maxTestRetryFailures,
 	
 	systemProperties
 
