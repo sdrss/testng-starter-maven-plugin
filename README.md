@@ -4,7 +4,7 @@ A mvn plugin to start testNG suites with all testNG/reportNG related attributes
 
 Command line Usage : mvn clean install testng-starter:test
 
-| Attribute | Description | Mandatory | Default Value |
+| Attribute | Default Value | Mandatory | Description |
 |-----------|-------------|-----------|---------------|
 |configFailurePolicy           |             |           |               |
 |dataProviderThreadCount       |             |           |               |
