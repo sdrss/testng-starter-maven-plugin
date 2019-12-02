@@ -52,7 +52,7 @@ public final class TestNGStarterMainClass {
 			tng = new TestNG();
 			Properties retryProperties = new Properties();
 			retryProperties.putAll(properties);
-			retryProperties.setProperty(TestParameters.testSuites.name(), testOutputDirectory + "/" + testNG_Retry_Suite_Name);
+			retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + testNG_Retry_Suite_Name);
 			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Retry_Path);
 			initTestNG(tng, retryProperties);
 			if (useReportNG) {
@@ -66,11 +66,11 @@ public final class TestNGStarterMainClass {
 			tng = new TestNG();
 			Properties postProperties = new Properties();
 			postProperties.putAll(properties);
-			postProperties.setProperty(TestParameters.testSuites.name(), properties.getProperty(TestParameters.testSuitesPostBuild.name()));
-			postProperties.setProperty(TestParameters.testSuitesPostBuild.name(), "");
+			postProperties.setProperty(TestParameters.suiteXmlFiles.name(), properties.getProperty(TestParameters.suiteXmlFilesPostBuild.name()));
+			postProperties.setProperty(TestParameters.suiteXmlFilesPostBuild.name(), "");
 			reportNGOutputDirectory = reportNGOutputDirectory.replace(testNG_Retry_Path, "");
 			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Post_Path);
-			postProperties.setProperty(TestParameters.retryFailures.name(), "false");
+			postProperties.setProperty(TestParameters.retryTestFailures.name(), "false");
 			initTestNG(tng, postProperties);
 			if (useReportNG) {
 				initReportNG(tng, postProperties);
@@ -94,7 +94,8 @@ public final class TestNGStarterMainClass {
 					if (splitter.length == 2) {
 						System.setProperty(splitter[0], splitter[1]);
 					} else if (splitter.length == 1) {
-						System.setProperty(splitter[0], null);
+						// Or throw Exception ? for null SystemProperty ?
+						System.setProperty(splitter[0], "");
 					}
 				}
 			}
@@ -125,15 +126,15 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
-		if (properties.get(TestParameters.knownDefectsMode.name()) != null) {
+		if (properties.get(TestParameters.handleKnownDefectsAsFailures.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.knownDefectsMode.name())) {
+				if ((Boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
 					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "true");
 				} else {
 					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "false");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.knownDefectsMode.name(), ex);
+				logger.debug(TestParameters.handleKnownDefectsAsFailures.name(), ex);
 			}
 		}
 		
@@ -177,9 +178,9 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
-		if (properties.get(TestParameters.title.name()) != null) {
+		if (properties.get(TestParameters.reportNGhtmlReportTitle.name()) != null) {
 			try {
-				String title = (String) properties.get(TestParameters.title.name());
+				String title = (String) properties.get(TestParameters.reportNGhtmlReportTitle.name());
 				System.setProperty(HTMLReporter.REPORTNG_TITLE, title);
 			} catch (Exception ex) {
 				logger.debug(TestParameters.failFast.name(), ex);
@@ -288,22 +289,22 @@ public final class TestNGStarterMainClass {
 		// Disable All Listeners and enable one by one according to params
 		tng.setUseDefaultListeners(false);
 		// HTML Listener
-		if (properties.get(TestParameters.htmlReport.name()) != null) {
+		if (properties.get(TestParameters.generateHtmlReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.htmlReport.name())) {
+				if ((Boolean) properties.get(TestParameters.generateHtmlReport.name())) {
 					listenerClasses.add(org.testng.reporters.SuiteHTMLReporter.class);
 					listenerClasses.add(org.testng.reporters.EmailableReporter.class);
 					listenerClasses.add(org.testng.reporters.EmailableReporter2.class);
 					listenerClasses.add(org.testng.reporters.TestHTMLReporter.class);
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.htmlReport.name(), ex);
+				logger.debug(TestParameters.generateHtmlReport.name(), ex);
 			}
 		}
 		// XML Listener
-		if (properties.get(TestParameters.xmlReport.name()) != null) {
+		if (properties.get(TestParameters.generateXMLReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.xmlReport.name())) {
+				if ((Boolean) properties.get(TestParameters.generateXMLReport.name())) {
 					if (isJunit != null) {
 						if (isJunit) {
 							listenerClasses.add(org.testng.reporters.JUnitXMLReporter.class);
@@ -313,34 +314,34 @@ public final class TestNGStarterMainClass {
 					}
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.xmlReport.name(), ex);
+				logger.debug(TestParameters.generateXMLReport.name(), ex);
 			}
 		}
 		// Junit Listener
-		if (properties.get(TestParameters.junitReport.name()) != null) {
+		if (properties.get(TestParameters.generateJunitReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.junitReport.name())) {
+				if ((Boolean) properties.get(TestParameters.generateJunitReport.name())) {
 					listenerClasses.add(org.testng.reporters.JUnitReportReporter.class);
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.junitReport.name(), ex);
+				logger.debug(TestParameters.generateJunitReport.name(), ex);
 			}
 		}
 		// ReportNG main Listener
-		if (properties.get(TestParameters.reportNGListener.name()) != null) {
+		if (properties.get(TestParameters.generateReportNGhtmlReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.reportNGListener.name())) {
+				if ((Boolean) properties.get(TestParameters.generateReportNGhtmlReport.name())) {
 					listenerClasses.add(org.uncommons.reportng.HTMLReporter.class);
 					useReportNG = true;
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.reportNGListener.name(), ex);
+				logger.debug(TestParameters.generateReportNGhtmlReport.name(), ex);
 			}
 		}
 		// Time Out Listener
-		if (properties.get(TestParameters.testTimeout.name()) != null) {
+		if (properties.get(TestParameters.globalTestTimeOut.name()) != null) {
 			try {
-				Long testTimeout = (Long) properties.get(TestParameters.testTimeout.name());
+				Long testTimeout = (Long) properties.get(TestParameters.globalTestTimeOut.name());
 				if (testTimeout > 0) {
 					if (!listenerClasses.contains(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class)) {
 						listenerClasses.add(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class);
@@ -350,13 +351,13 @@ public final class TestNGStarterMainClass {
 					System.setProperty(HTMLReporter.TEST_TIMEOUT, "0");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.testTimeout.name(), ex);
+				logger.debug(TestParameters.globalTestTimeOut.name(), ex);
 			}
 		}
 		// Retry Listener
-		if (properties.get(TestParameters.testRetry.name()) != null) {
+		if (properties.get(TestParameters.retryFailures.name()) != null) {
 			try {
-				Integer testRetry = (Integer) properties.get(TestParameters.testRetry.name());
+				Integer testRetry = (Integer) properties.get(TestParameters.retryFailures.name());
 				if (testRetry > 0) {
 					if (!listenerClasses.contains(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class)) {
 						listenerClasses.add(org.uncommons.reportng.listeners.IAnnotationTransformerListener.class);
@@ -366,7 +367,7 @@ public final class TestNGStarterMainClass {
 					System.setProperty(HTMLReporter.TEST_MAX_RETRY_COUNT, "0");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.testRetry.name(), ex);
+				logger.debug(TestParameters.retryFailures.name(), ex);
 			}
 		}
 		// Fail Fast Listener
@@ -394,16 +395,16 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		// Retry Failures Listener to create testng-failed.xml file
-		if (properties.get(TestParameters.retryFailures.name()) != null) {
+		if (properties.get(TestParameters.retryTestFailures.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.retryFailures.name())) {
+				if ((Boolean) properties.get(TestParameters.retryTestFailures.name())) {
 					listenerClasses.add(org.testng.reporters.FailedReporter.class);
 					retryFailures = true;
 				} else {
 					logger.debug("Do nothing");
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.retryFailures.name(), ex);
+				logger.debug(TestParameters.retryTestFailures.name(), ex);
 			}
 		}
 		if (properties.get(TestParameters.excludedGroups.name()) != null) {
@@ -468,16 +469,16 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
-		if (properties.get(TestParameters.testSuites.name()) == null) {
+		if (properties.get(TestParameters.suiteXmlFiles.name()) == null) {
 			throw new IllegalStateException("No suite files were specified");
 		} else {
 			List<String> testSuites = new ArrayList<>();
-			if (properties.get(TestParameters.testSuites.name()) != null) {
+			if (properties.get(TestParameters.suiteXmlFiles.name()) != null) {
 				try {
-					String testSuitesCommaSeparated = (String) properties.get(TestParameters.testSuites.name());
+					String testSuitesCommaSeparated = (String) properties.get(TestParameters.suiteXmlFiles.name());
 					testSuites = Arrays.asList(testSuitesCommaSeparated.split(","));
 				} catch (Exception ex) {
-					logger.debug(TestParameters.testSuites.name(), ex);
+					logger.debug(TestParameters.suiteXmlFiles.name(), ex);
 				}
 			}
 			if (!testSuites.isEmpty()) {
@@ -496,18 +497,18 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
-		if (properties.get(TestParameters.testSuitesPostBuild.name()) == null) {
+		if (properties.get(TestParameters.suiteXmlFilesPostBuild.name()) == null) {
 			postBuildSuites = false;
 		} else {
 			try {
-				String testSuitesCommaSeparated = (String) properties.get(TestParameters.testSuitesPostBuild.name());
+				String testSuitesCommaSeparated = (String) properties.get(TestParameters.suiteXmlFilesPostBuild.name());
 				if (testSuitesCommaSeparated.isEmpty()) {
 					postBuildSuites = false;
 				} else {
 					postBuildSuites = true;
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.testSuitesPostBuild.name(), ex);
+				logger.debug(TestParameters.suiteXmlFilesPostBuild.name(), ex);
 			}
 		}
 		
@@ -515,7 +516,7 @@ public final class TestNGStarterMainClass {
 		tng.setListenerClasses(listenerClasses);
 		// Print
 		for (Class<? extends ITestNGListener> temp : listenerClasses) {
-			System.out.println("Invoke : " + temp.getCanonicalName());
+			logger.info("Listener : " + temp.getCanonicalName());
 		}
 	}
 	

@@ -29,14 +29,14 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "configFailurePolicy", defaultValue = "skip")
 	private String configFailurePolicy;
 	
-	@Parameter(property = "htmlReport", defaultValue = "false")
-	private Boolean htmlReport;
+	@Parameter(property = "generateHtmlReport", defaultValue = "false")
+	private Boolean generateHtmlReport;
 	
-	@Parameter(property = "xmlReport", defaultValue = "true")
-	private Boolean xmlReport;
+	@Parameter(property = "generateXMLReport", defaultValue = "true")
+	private Boolean generateXMLReport;
 	
-	@Parameter(property = "junitReport", defaultValue = "false")
-	private Boolean junitReport;
+	@Parameter(property = "generateJunitReport", defaultValue = "false")
+	private Boolean generateJunitReport;
 	
 	@Parameter(property = "excludedGroups", defaultValue = "")
 	private String excludedGroups;
@@ -62,14 +62,14 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "randomizeSuites", defaultValue = "false")
 	private Boolean randomizeSuites;
 	
-	@Parameter(property = "reportNGListener", defaultValue = "true")
-	private Boolean reportNGListener;
+	@Parameter(property = "generateReportNGhtmlReport", defaultValue = "true")
+	private Boolean generateReportNGhtmlReport;
 	
 	@Parameter(property = "reportNGOutputDirectory", defaultValue = "html")
 	private String reportNGOutputDirectory;
 	
-	@Parameter(property = "retryFailures", defaultValue = "false")
-	private Boolean retryFailures;
+	@Parameter(property = "retryTestFailures", defaultValue = "false")
+	private Boolean retryTestFailures;
 	
 	@Parameter(property = "failFast", defaultValue = "false")
 	private Boolean failFast;
@@ -80,20 +80,20 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "showPassedConfigurations", defaultValue = "true")
 	private Boolean showPassedConfigurations;
 	
-	@Parameter(property = "knownDefectsMode", defaultValue = "true")
-	private Boolean knownDefectsMode;
+	@Parameter(property = "handleKnownDefectsAsFailures", defaultValue = "false")
+	private Boolean handleKnownDefectsAsFailures;
 	
 	@Parameter(property = "logOutputReport", defaultValue = "false")
 	private Boolean logOutputReport;
 	
-	@Parameter(property = "title", defaultValue = "ReportNG")
-	private String title;
+	@Parameter(property = "reportNGhtmlReportTitle", defaultValue = "ReportNG")
+	private String reportNGhtmlReportTitle;
 	
-	@Parameter(property = "testTimeout", defaultValue = "0")
-	private Long testTimeout;
+	@Parameter(property = "globalTestTimeOut", defaultValue = "0")
+	private Long globalTestTimeOut;
 	
-	@Parameter(property = "testRetry", defaultValue = "0")
-	private Integer testRetry;
+	@Parameter(property = "retryFailures", defaultValue = "0")
+	private Integer retryFailures;
 	
 	@Parameter(property = "systemProperties")
 	private List<String> systemProperties;
@@ -105,10 +105,10 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		properties.put(TestParameters.outputDirectory.name(), outputDirectory);
 		properties.put(TestParameters.preserveOrder.name(), preserveOrder);
 		properties.put(TestParameters.configFailurePolicy.name(), configFailurePolicy);
-		properties.put(TestParameters.htmlReport.name(), htmlReport);
-		properties.put(TestParameters.xmlReport.name(), xmlReport);
-		properties.put(TestParameters.junitReport.name(), junitReport);
-		properties.put(TestParameters.reportNGListener.name(), reportNGListener);
+		properties.put(TestParameters.generateHtmlReport.name(), generateHtmlReport);
+		properties.put(TestParameters.generateXMLReport.name(), generateXMLReport);
+		properties.put(TestParameters.generateJunitReport.name(), generateJunitReport);
+		properties.put(TestParameters.generateReportNGhtmlReport.name(), generateReportNGhtmlReport);
 		properties.put(TestParameters.logOutputReport.name(), logOutputReport);
 		if (listeners != null) {
 			properties.put(TestParameters.listeners.name(), listeners);
@@ -129,24 +129,24 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		properties.put(TestParameters.parallel.name(), parallel);
 		properties.put(TestParameters.randomizeSuites.name(), randomizeSuites);
 		if (suiteXmlFiles != null) {
-			properties.put(TestParameters.testSuites.name(), suiteXmlFiles);
+			properties.put(TestParameters.suiteXmlFiles.name(), suiteXmlFiles);
 		} else {
-			properties.put(TestParameters.testSuites.name(), "");
+			properties.put(TestParameters.suiteXmlFiles.name(), "");
 		}
 		if (suiteXmlFilesPostBuild != null) {
-			properties.put(TestParameters.testSuitesPostBuild.name(), suiteXmlFilesPostBuild);
+			properties.put(TestParameters.suiteXmlFilesPostBuild.name(), suiteXmlFilesPostBuild);
 		} else {
-			properties.put(TestParameters.testSuitesPostBuild.name(), "");
+			properties.put(TestParameters.suiteXmlFilesPostBuild.name(), "");
 		}
 		properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);
 		properties.put(TestParameters.failFast.name(), failFast);
 		properties.put(TestParameters.failOnErrors.name(), failOnErrors);
-		properties.put(TestParameters.retryFailures.name(), retryFailures);
+		properties.put(TestParameters.retryTestFailures.name(), retryTestFailures);
 		properties.put(TestParameters.showPassedConfigurations.name(), showPassedConfigurations);
-		properties.put(TestParameters.knownDefectsMode.name(), knownDefectsMode);
-		properties.put(TestParameters.title.name(), title);
-		properties.put(TestParameters.testTimeout.name(), testTimeout);
-		properties.put(TestParameters.testRetry.name(), testRetry);
+		properties.put(TestParameters.handleKnownDefectsAsFailures.name(), handleKnownDefectsAsFailures);
+		properties.put(TestParameters.reportNGhtmlReportTitle.name(), reportNGhtmlReportTitle);
+		properties.put(TestParameters.globalTestTimeOut.name(), globalTestTimeOut);
+		properties.put(TestParameters.retryFailures.name(), retryFailures);
 		properties.put(TestParameters.systemProperties.name(), systemProperties);
 		
 		if (getLog().isDebugEnabled()) {
