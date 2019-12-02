@@ -1,7 +1,10 @@
 # maven-testng-starter-plugin
 
 A mvn plugin to start testNG suites with all testNG/reportNG related attributes
-
+<!--
+![GitHub Release Date](https://img.shields.io/github/release-date/sdrss/maven-testng-starter-plugin) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sdrss/maven-testng-starter-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin?style=blue)](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin)
+-->
 Command line Usage : mvn clean install testng-starter:test
 
 | Attribute | Default Value | Description |
