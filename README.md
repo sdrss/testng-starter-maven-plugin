@@ -6,7 +6,7 @@ Command line Usage : mvn clean install testng-starter:test
 
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
-|configFailurePolicy           |             |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE|
+|configFailurePolicy           | NONE        |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE|
 |dataProviderThreadCount       |  1          |               |
 |excludedGroups                |             |Define which groups will be excluded from this run. Separated by a comma.|
 |failFast                      | false       |Fail execution upon first test failure. The rest of the execution will be skipped. Possible values true,false.|
