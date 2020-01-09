@@ -128,7 +128,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.handleKnownDefectsAsFailures.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
+				if (!(Boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
 					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "true");
 				} else {
 					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "false");
