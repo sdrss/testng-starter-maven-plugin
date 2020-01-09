@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-testng-starter-plugin</artifactId>
+	<artifactId>testng-starter-plugin</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
@@ -17,7 +17,7 @@
 		<!-- TestNG -->
 		<testng.version>6.14.3</testng.version>
 		<!-- ReportNG -->
-		<reportng.version>2.4.4</reportng.version>
+		<reportng.version>2.4.5</reportng.version>
 	</properties>
 
 	<build>
