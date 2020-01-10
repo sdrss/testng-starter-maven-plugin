@@ -86,7 +86,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "logOutputReport", defaultValue = "false")
 	private Boolean logOutputReport;
 	
-	@Parameter(property = "reportNGhtmlReportTitle", defaultValue = "ReportNG")
+	@Parameter(property = "reportNGhtmlReportTitle", defaultValue = "")
 	private String reportNGhtmlReportTitle;
 	
 	@Parameter(property = "globalTestTimeOut", defaultValue = "0")
