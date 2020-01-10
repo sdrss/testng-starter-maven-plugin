@@ -31,7 +31,6 @@ public enum TestParameters {
 	externalLinks,
 	logOutputReport,
 	reportNGhtmlReportTitle,
-	argumentsTitle,
 	globalTestTimeOut,
 	maxTestRetryFailures,
 	
