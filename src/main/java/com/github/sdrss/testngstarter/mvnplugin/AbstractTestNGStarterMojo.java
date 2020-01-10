@@ -99,17 +99,39 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	private List<String> systemProperties;
 	
 	public void initProperties(Properties properties) {
-		properties.put(TestParameters.threadPoolSize.name(), threadPoolSize);
-		properties.put(TestParameters.suiteThreadPoolSize.name(), suiteThreadPoolSize);
-		properties.put(TestParameters.dataProviderThreadCount.name(), dataProviderThreadCount);
-		properties.put(TestParameters.outputDirectory.name(), outputDirectory);
-		properties.put(TestParameters.preserveOrder.name(), preserveOrder);
-		properties.put(TestParameters.configFailurePolicy.name(), configFailurePolicy);
-		properties.put(TestParameters.generateHtmlReport.name(), generateHtmlReport);
-		properties.put(TestParameters.generateXMLReport.name(), generateXMLReport);
-		properties.put(TestParameters.generateJunitReport.name(), generateJunitReport);
-		properties.put(TestParameters.generateReportNGhtmlReport.name(), generateReportNGhtmlReport);
-		properties.put(TestParameters.logOutputReport.name(), logOutputReport);
+		if (threadPoolSize != null) {
+			properties.put(TestParameters.threadPoolSize.name(), threadPoolSize);
+		}
+		if (suiteThreadPoolSize != null) {
+			properties.put(TestParameters.suiteThreadPoolSize.name(), suiteThreadPoolSize);
+		}
+		if (dataProviderThreadCount != null) {
+			properties.put(TestParameters.dataProviderThreadCount.name(), dataProviderThreadCount);
+		}
+		if (outputDirectory != null) {
+			properties.put(TestParameters.outputDirectory.name(), outputDirectory);
+		}
+		if (preserveOrder != null) {
+			properties.put(TestParameters.preserveOrder.name(), preserveOrder);
+		}
+		if (configFailurePolicy != null) {
+			properties.put(TestParameters.configFailurePolicy.name(), configFailurePolicy);
+		}
+		if (generateHtmlReport != null) {
+			properties.put(TestParameters.generateHtmlReport.name(), generateHtmlReport);
+		}
+		if (generateXMLReport != null) {
+			properties.put(TestParameters.generateXMLReport.name(), generateXMLReport);
+		}
+		if (generateJunitReport != null) {
+			properties.put(TestParameters.generateJunitReport.name(), generateJunitReport);
+		}
+		if (generateReportNGhtmlReport != null) {
+			properties.put(TestParameters.generateReportNGhtmlReport.name(), generateReportNGhtmlReport);
+		}
+		if (logOutputReport != null) {
+			properties.put(TestParameters.logOutputReport.name(), logOutputReport);
+		}
 		if (listeners != null) {
 			properties.put(TestParameters.listeners.name(), listeners);
 		} else {
@@ -125,9 +147,15 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		} else {
 			properties.put(TestParameters.groups.name(), "");
 		}
-		properties.put(TestParameters.isJUnit.name(), isJUnit);
-		properties.put(TestParameters.parallel.name(), parallel);
-		properties.put(TestParameters.randomizeSuites.name(), randomizeSuites);
+		if (isJUnit != null) {
+			properties.put(TestParameters.isJUnit.name(), isJUnit);
+		}
+		if (parallel != null) {
+			properties.put(TestParameters.parallel.name(), parallel);
+		}
+		if (randomizeSuites != null) {
+			properties.put(TestParameters.randomizeSuites.name(), randomizeSuites);
+		}
 		if (suiteXmlFiles != null) {
 			properties.put(TestParameters.suiteXmlFiles.name(), suiteXmlFiles);
 		} else {
@@ -138,17 +166,38 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		} else {
 			properties.put(TestParameters.suiteXmlFilesPostBuild.name(), "");
 		}
-		properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);
-		properties.put(TestParameters.failFast.name(), failFast);
-		properties.put(TestParameters.failOnErrors.name(), failOnErrors);
-		properties.put(TestParameters.executeTestngFailedxml.name(), executeTestngFailedxml);
-		properties.put(TestParameters.showPassedConfigurations.name(), showPassedConfigurations);
-		properties.put(TestParameters.handleKnownDefectsAsFailures.name(), handleKnownDefectsAsFailures);
-		properties.put(TestParameters.reportNGhtmlReportTitle.name(), reportNGhtmlReportTitle);
-		properties.put(TestParameters.globalTestTimeOut.name(), globalTestTimeOut);
-		properties.put(TestParameters.maxTestRetryFailures.name(), maxTestRetryFailures);
-		properties.put(TestParameters.systemProperties.name(), systemProperties);
-		
+		if (reportNGOutputDirectory != null) {
+			properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);
+		}
+		if (failFast != null) {
+			properties.put(TestParameters.failFast.name(), failFast);
+		}
+		if (failOnErrors != null) {
+			properties.put(TestParameters.failOnErrors.name(), failOnErrors);
+		}
+		if (executeTestngFailedxml != null) {
+			properties.put(TestParameters.executeTestngFailedxml.name(), executeTestngFailedxml);
+		}
+		if (showPassedConfigurations != null) {
+			properties.put(TestParameters.showPassedConfigurations.name(), showPassedConfigurations);
+		}
+		if (handleKnownDefectsAsFailures != null) {
+			properties.put(TestParameters.handleKnownDefectsAsFailures.name(), handleKnownDefectsAsFailures);
+		}
+		if (reportNGhtmlReportTitle != null) {
+			properties.put(TestParameters.reportNGhtmlReportTitle.name(), reportNGhtmlReportTitle);
+		} else {
+			properties.put(TestParameters.reportNGhtmlReportTitle.name(), "");
+		}
+		if (globalTestTimeOut != null) {
+			properties.put(TestParameters.globalTestTimeOut.name(), globalTestTimeOut);
+		}
+		if (maxTestRetryFailures != null) {
+			properties.put(TestParameters.maxTestRetryFailures.name(), maxTestRetryFailures);
+		}
+		if (systemProperties != null) {
+			properties.put(TestParameters.systemProperties.name(), systemProperties);
+		}
 		if (getLog().isDebugEnabled()) {
 			getLog().debug(properties.toString());
 		}
