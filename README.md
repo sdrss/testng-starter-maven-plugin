@@ -32,7 +32,7 @@ Command line Usage : mvn clean install testng-starter:test
 |parallel                      | NONE        |Parallel execution. Possible values are CLASSES,INSTANCES,METHODS,TEST.|
 |preserveOrder                 | true        |Possible values true,false.|
 |randomizeSuites               | false       |Possible values true,false.|
-|reportNGhtmlReportTitle       | ReportNG    |ReportNG html report title. See for more [reportNG](https://github.com/sdrss/reportNG)|
+|reportNGhtmlReportTitle       |             |ReportNG html report title. See for more [reportNG](https://github.com/sdrss/reportNG)|
 |reportNGOutputDirectory       | html        |ReportNG html report output path.|
 |maxTestRetryFailures          | 0           |Define the max number of retries for a test. In case of 0 then retry Listener is not invoked.|
 |executeTestngFailedxml        | false       |Generate and run testng-failed.xml. Possible values true,false.|
