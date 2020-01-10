@@ -170,18 +170,12 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
-		if (properties.get(TestParameters.argumentsTitle.name()) != null) {
-			try {
-				// TODO HTMLReporter.ARGUMENTS_TITLE
-			} catch (Exception ex) {
-				logger.debug(TestParameters.argumentsTitle.name(), ex);
-			}
-		}
-		
 		if (properties.get(TestParameters.reportNGhtmlReportTitle.name()) != null) {
 			try {
 				String title = (String) properties.get(TestParameters.reportNGhtmlReportTitle.name());
-				System.setProperty(HTMLReporter.REPORTNG_TITLE, title);
+				if (!Strings.isNullOrEmpty(title)) {
+					System.setProperty(HTMLReporter.REPORTNG_TITLE, title);
+				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.failFast.name(), ex);
 			}
