@@ -17,7 +17,7 @@
 		<!-- TestNG -->
 		<testng.version>6.14.3</testng.version>
 		<!-- ReportNG -->
-		<reportng.version>2.4.5</reportng.version>
+		<reportng.version>2.4.6</reportng.version>
 	</properties>
 
 	<build>
