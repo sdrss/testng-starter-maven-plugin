@@ -1,6 +1,6 @@
-# testng-starter-plugin
+# testng-starter-maven-plugin
 
-A mvn plugin to start testNG suites with all testNG/reportNG related attributes
+A maven plugin to start testNG suites with all testNG/reportNG related attributes
 
 
 [![Build](https://github.com/sdrss/maven-testng-starter-plugin/workflows/Java_CI/badge.svg)](https://github.com/sdrss/maven-testng-starter-plugin/workflows/Java_CI/badge.svg)
