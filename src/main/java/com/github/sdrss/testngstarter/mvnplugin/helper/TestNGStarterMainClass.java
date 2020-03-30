@@ -78,7 +78,7 @@ public final class TestNGStarterMainClass {
 			setSystemProperties(postProperties);
 			tng.run();
 		}
-		if (failOnError) {
+		if (failOnError && TestNGStatus.PASS.get() != tng.getStatus()) {
 			Execution.abort();
 		}
 		Execution.normal();
