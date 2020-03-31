@@ -536,9 +536,17 @@ public final class TestNGStarterMainClass {
 		if (knownDefect == null || "null".equalsIgnoreCase(knownDefect)) {
 			knownDefect = "0";
 		}
+		String fixed = System.getProperty(TestNGSemantics.FIXED);
+		if (fixed == null || "null".equalsIgnoreCase(fixed)) {
+			fixed = "0";
+		}
 		// Print Title
 		systemOut("Title : " + System.getProperty(HTMLReporter.REPORTNG_TITLE));
-		systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + "");
+		if (useReportNG) {
+			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + "Fixed: " + fixed);
+		} else {
+			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped);
+		}
 		systemOut(STRIPE);
 	}
 	

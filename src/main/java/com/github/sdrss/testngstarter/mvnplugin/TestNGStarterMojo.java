@@ -231,7 +231,7 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 		}
 		if (!uncooperativeThreads.isEmpty()) {
 			getLog().warn("NOTE: " + uncooperativeThreads.size() + " thread(s) did not finish despite being asked to "
-					+ " via interruption. This is not a problem with exec:java, it is a problem with the running code."
+					+ " via interruption. This is not a problem with mvn plugin, it is a problem with the running code."
 					+ " Although not serious, it should be remedied.");
 		} else {
 			int activeCount = threadGroup.activeCount();
