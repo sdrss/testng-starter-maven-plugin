@@ -542,7 +542,11 @@ public final class TestNGStarterMainClass {
 		}
 		// Print Title
 		systemOut("Title : " + System.getProperty(HTMLReporter.REPORTNG_TITLE));
-		systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + " Fixed: " + fixed);
+		if (useReportNG) {
+			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + " Fixed: " + fixed);
+		} else {
+			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped);
+		}
 		systemOut(STRIPE);
 	}
 	
