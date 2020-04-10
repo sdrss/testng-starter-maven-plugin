@@ -35,7 +35,7 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
  ```
 ** ** 
  
-**Command line usage smples** : 
+**Command line usage samples** : 
  * mvn testng-starter:test
  * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MyTestNGSuite.xml -DfailFast=true -DoutputDirectory=TestNG -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
 
