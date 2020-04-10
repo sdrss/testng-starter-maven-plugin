@@ -21,14 +21,14 @@ public final class TestNGStarterMainClass {
 	
 	public static final Logger logger = LoggerFactory.getLogger(TestNGStarterMainClass.class);
 	public static final String STRIPE = "===============================================";
-	public static final String testNG_Retry_Suite_Name = "testng-failed.xml";
-	public static final String testNG_Retry_Path = "_RetryFailures";
-	public static final String testNG_Post_Path = "_Post";
-	static Boolean isJunit = null;
-	static Boolean retryFailures = false;
-	static Boolean postBuildSuites = false;
-	static Boolean useReportNG = false;
-	static Boolean failOnError = false;
+	public static final String TESTNG_RETRY_SUITE_NAME = "testng-failed.xml";
+	public static final String TESTNG_RETRY_PATH = "_RetryFailures";
+	public static final String TESTNG_POST_PATH = "_Post";
+	static boolean isJunit = false;
+	static boolean retryFailures = false;
+	static boolean postBuildSuites = false;
+	static boolean useReportNG = false;
+	static boolean failOnError = false;
 	static String testOutputDirectory = "";
 	static String reportNGOutputDirectory = "";
 	
@@ -49,11 +49,12 @@ public final class TestNGStarterMainClass {
 		printSummary();
 		// Execute testng-failed.xml
 		if (retryFailures) {
+			logger.info("Start TestNG (" + TESTNG_RETRY_SUITE_NAME + ")");
 			tng = new TestNG();
 			Properties retryProperties = new Properties();
 			retryProperties.putAll(properties);
-			retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + testNG_Retry_Suite_Name);
-			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Retry_Path);
+			retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
+			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_RETRY_PATH);
 			initTestNG(tng, retryProperties);
 			if (useReportNG) {
 				initReportNG(tng, retryProperties);
@@ -68,9 +69,9 @@ public final class TestNGStarterMainClass {
 			postProperties.putAll(properties);
 			postProperties.setProperty(TestParameters.suiteXmlFiles.name(), properties.getProperty(TestParameters.suiteXmlFilesPostBuild.name()));
 			postProperties.setProperty(TestParameters.suiteXmlFilesPostBuild.name(), "");
-			reportNGOutputDirectory = reportNGOutputDirectory.replace(testNG_Retry_Path, "");
-			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + testNG_Post_Path);
-			postProperties.setProperty(TestParameters.executeTestngFailedxml.name(), "false");
+			reportNGOutputDirectory = reportNGOutputDirectory.replace(TESTNG_RETRY_PATH, "");
+			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_POST_PATH);
+			postProperties.setProperty(TestParameters.executeTestngFailedxml.name(), Boolean.FALSE.toString());
 			initTestNG(tng, postProperties);
 			if (useReportNG) {
 				initReportNG(tng, postProperties);
@@ -116,10 +117,10 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.showPassedConfigurations.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.showPassedConfigurations.name())) {
-					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, "true");
+				if ((boolean) properties.get(TestParameters.showPassedConfigurations.name())) {
+					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, "false");
+					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.showPassedConfigurations.name(), ex);
@@ -128,10 +129,10 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.handleKnownDefectsAsFailures.name()) != null) {
 			try {
-				if (!(Boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
-					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "true");
+				if (!(boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
+					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, "false");
+					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.handleKnownDefectsAsFailures.name(), ex);
@@ -140,10 +141,10 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.escapeOutput.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.escapeOutput.name())) {
-					System.setProperty(HTMLReporter.ESCAPE_OUTPUT, "true");
+				if ((boolean) properties.get(TestParameters.escapeOutput.name())) {
+					System.setProperty(HTMLReporter.ESCAPE_OUTPUT, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.ESCAPE_OUTPUT, "false");
+					System.setProperty(HTMLReporter.ESCAPE_OUTPUT, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.escapeOutput.name(), ex);
@@ -152,10 +153,10 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.logOutputReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.logOutputReport.name())) {
-					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, "true");
+				if ((boolean) properties.get(TestParameters.logOutputReport.name())) {
+					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, "false");
+					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.logOutputReport.name(), ex);
@@ -183,7 +184,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.failOnErrors.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.failOnErrors.name())) {
+				if ((boolean) properties.get(TestParameters.failOnErrors.name())) {
 					failOnError = true;
 				} else {
 					failOnError = false;
@@ -238,7 +239,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.preserveOrder.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.preserveOrder.name())) {
+				if ((boolean) properties.get(TestParameters.preserveOrder.name())) {
 					tng.setPreserveOrder(true);
 				} else {
 					tng.setPreserveOrder(false);
@@ -250,14 +251,13 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.isJUnit.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.isJUnit.name())) {
+				if ((boolean) properties.get(TestParameters.isJUnit.name())) {
 					tng.setJUnit(true);
 					isJunit = true;
 				} else {
 					tng.setJUnit(false);
 					isJunit = false;
 				}
-				
 			} catch (Exception ex) {
 				logger.debug(TestParameters.isJUnit.name(), ex);
 			}
@@ -285,7 +285,7 @@ public final class TestNGStarterMainClass {
 		// HTML Listener
 		if (properties.get(TestParameters.generateHtmlReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.generateHtmlReport.name())) {
+				if ((boolean) properties.get(TestParameters.generateHtmlReport.name())) {
 					listenerClasses.add(org.testng.reporters.SuiteHTMLReporter.class);
 					listenerClasses.add(org.testng.reporters.EmailableReporter.class);
 					listenerClasses.add(org.testng.reporters.EmailableReporter2.class);
@@ -298,13 +298,11 @@ public final class TestNGStarterMainClass {
 		// XML Listener
 		if (properties.get(TestParameters.generateXMLReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.generateXMLReport.name())) {
-					if (isJunit != null) {
-						if (isJunit) {
-							listenerClasses.add(org.testng.reporters.JUnitXMLReporter.class);
-						} else {
-							listenerClasses.add(org.testng.reporters.XMLReporter.class);
-						}
+				if ((boolean) properties.get(TestParameters.generateXMLReport.name())) {
+					if (isJunit) {
+						listenerClasses.add(org.testng.reporters.JUnitXMLReporter.class);
+					} else {
+						listenerClasses.add(org.testng.reporters.XMLReporter.class);
 					}
 				}
 			} catch (Exception ex) {
@@ -314,7 +312,7 @@ public final class TestNGStarterMainClass {
 		// Junit Listener
 		if (properties.get(TestParameters.generateJunitReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.generateJunitReport.name())) {
+				if ((boolean) properties.get(TestParameters.generateJunitReport.name())) {
 					listenerClasses.add(org.testng.reporters.JUnitReportReporter.class);
 				}
 			} catch (Exception ex) {
@@ -324,7 +322,7 @@ public final class TestNGStarterMainClass {
 		// ReportNG main Listener
 		if (properties.get(TestParameters.generateReportNGhtmlReport.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.generateReportNGhtmlReport.name())) {
+				if ((boolean) properties.get(TestParameters.generateReportNGhtmlReport.name())) {
 					listenerClasses.add(org.uncommons.reportng.HTMLReporter.class);
 					useReportNG = true;
 				}
@@ -367,7 +365,7 @@ public final class TestNGStarterMainClass {
 		// Fail Fast Listener
 		if (properties.get(TestParameters.failFast.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.failFast.name())) {
+				if ((boolean) properties.get(TestParameters.failFast.name())) {
 					listenerClasses.add(org.uncommons.reportng.listeners.FailFastListener.class);
 				}
 			} catch (Exception ex) {
@@ -391,7 +389,7 @@ public final class TestNGStarterMainClass {
 		// Retry Failures Listener to create testng-failed.xml file
 		if (properties.get(TestParameters.executeTestngFailedxml.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.executeTestngFailedxml.name())) {
+				if ((boolean) properties.get(TestParameters.executeTestngFailedxml.name())) {
 					listenerClasses.add(org.testng.reporters.FailedReporter.class);
 					retryFailures = true;
 				} else {
@@ -452,7 +450,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.randomizeSuites.name()) != null) {
 			try {
-				if ((Boolean) properties.get(TestParameters.randomizeSuites.name())) {
+				if ((boolean) properties.get(TestParameters.randomizeSuites.name())) {
 					tng.setRandomizeSuites(true);
 				} else {
 					tng.setRandomizeSuites(false);

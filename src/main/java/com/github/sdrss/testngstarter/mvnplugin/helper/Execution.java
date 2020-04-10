@@ -20,9 +20,9 @@ public class Execution {
 	}
 	
 	public static void skip() throws SkipException {
-		System.setProperty(HTMLReporter.SKIP_EXECUTION, "true");
+		System.setProperty(HTMLReporter.SKIP_EXECUTION, Boolean.TRUE.toString());
 		LOGGER.error("Skip Tests Mode is Enabled. <Skip>");
-		throw new SkipException("Skipped because property [" + HTMLReporter.SKIP_EXECUTION + "=" + true + "]");
+		throw new SkipException("Skipped because property [" + HTMLReporter.SKIP_EXECUTION + "=" + Boolean.TRUE.toString() + "]");
 	}
 	
 	public static void normal() {

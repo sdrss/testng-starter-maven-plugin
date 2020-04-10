@@ -191,8 +191,8 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 			getLog().debug("joining on thread " + thread);
 			thread.join(timeoutMsecs);
 		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt(); // good practice if don't throw
-			getLog().warn("interrupted while joining against thread " + thread, e); // not expected!
+			Thread.currentThread().interrupt();
+			getLog().warn("interrupted while joining against thread " + thread, e);
 		}
 		if (thread.isAlive()) {
 			getLog().warn("thread " + thread + " was interrupted but is still alive after waiting at least " + timeoutMsecs + "msecs");
