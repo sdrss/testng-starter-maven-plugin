@@ -34,8 +34,11 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
 <pluginManagement> 
  ```
  
+ 
 **Command line usage** : mvn clean install testng-starter:test
 
+
+** ** 
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
 |configFailurePolicy           | NONE        |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE|
