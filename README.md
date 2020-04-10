@@ -25,7 +25,6 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
 				</execution>
 				<configuration>
 				<!-- TestNG Starter mvn plugin Configuration-->
-				<!-- See below the complete attributes list-->
 				<suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
 				</configuration>
 			</executions>
