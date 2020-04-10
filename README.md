@@ -33,7 +33,7 @@ Command line Usage : mvn clean install testng-starter:test
 |preserveOrder                 | true        |Possible values true,false.|
 |randomizeSuites               | false       |Possible values true,false.|
 |reportNGhtmlReportTitle       |             |ReportNG html report title. See for more [reportNG](https://github.com/sdrss/reportNG)|
-|reportNGOutputDirectory       | html        |ReportNG html report output path.|
+|reportNGOutputDirectory       | html        |ReportNG html report output path. Default {testNG_default_output_directory}/reportNG|
 |maxTestRetryFailures          | 0           |Define the max number of retries for a test. In case of 0 then retry Listener is not invoked.|
 |executeTestngFailedxml        | false       |Generate and run testng-failed.xml. Possible values true,false.|
 |showPassedConfigurations      | true        |Show passed configuration into [reportNG](https://github.com/sdrss/reportNG) html report. Possible values true,false.|
