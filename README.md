@@ -1,7 +1,6 @@
 # testng-starter-maven-plugin
 
-A maven plugin to start testNG suites with all testNG/reportNG related attributes
-
+A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)/[reportNG](https://github.com/sdrss/reportNG) related attributes.
 
 [![Build](https://github.com/sdrss/maven-testng-starter-plugin/workflows/Java_CI/badge.svg)](https://github.com/sdrss/maven-testng-starter-plugin/workflows/Java_CI/badge.svg)
 
@@ -10,28 +9,33 @@ A maven plugin to start testNG suites with all testNG/reportNG related attribute
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin?style=blue)](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin)
 -->
 
-Command line Usage : mvn clean install testng-starter:test
-Pom.xml usage :
-
+ **Pom.xml** plugin dependency example :
+```
 <pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>testng-starter-maven-plugin</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
-					<executions>
-						<execution>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>		
-					</configuration>
-         </plugin>
-        ...
-  </plugins>
- <pluginManagement> 
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>testng-starter-maven-plugin</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<executions>
+				<execution>
+				<goals>
+					<goal>test</goal>
+				</goals>
+				</execution>
+				<configuration>
+				<!-- TestNG Starter mvn plugin Configuration-->
+				<!-- See below the complete attributes list-->
+				<suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
+				</configuration>
+			</executions>
+         	</plugin>
+        	...
+  	</plugins>
+<pluginManagement> 
+ ```
+ 
+**Command line usage** : mvn clean install testng-starter:test
 
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
