@@ -8,7 +8,7 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
 ![GitHub Release Date](https://img.shields.io/github/release-date/sdrss/maven-testng-starter-plugin) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sdrss/maven-testng-starter-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin?style=blue)](https://img.shields.io/maven-central/v/com.github.sdrss/maven-testng-starter-plugin)
 -->
-
+** **
  **Pom.xml** plugin dependency example :
 ```
 <pluginManagement>
@@ -25,7 +25,6 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
 				</execution>
 				<configuration>
 				<!-- TestNG Starter mvn plugin Configuration-->
-				<!-- See below the complete attributes list-->
 				<suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
 				</configuration>
 			</executions>
@@ -34,9 +33,13 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
   	</plugins>
 <pluginManagement> 
  ```
+** ** 
  
-**Command line usage** : mvn clean install testng-starter:test
+**Command line usage samples** : 
+ * mvn testng-starter:test
+ * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MyTestNGSuite.xml -DfailFast=true -DoutputDirectory=TestNG -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
 
+** ** 
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
 |configFailurePolicy           | NONE        |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE|
