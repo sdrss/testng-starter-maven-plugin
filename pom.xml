@@ -1,13 +1,13 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.apache.maven.plugins</groupId>
+	<groupId>sdrss.testngstarter.maven.plugin</groupId>
 	<artifactId>testng-starter-maven-plugin</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 
 	<name>TestNG Starter Maven Plugin</name>
-	<description>An Example Maven Plugin</description>
+	<description>A maven plugin to start testNG suites with all testNG/reportNG related attributes.</description>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -20,12 +20,109 @@
 		<reportng.version>2.4.6</reportng.version>
 	</properties>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+	
+	<developers>
+		<developer>
+			<name>Socrates Sidereas</name>
+			<email>socrates.sidereas@gmail.com</email>
+		</developer>
+	</developers>
+	
+	<scm>
+		<url>https://github.com/sdrss/testng-starter-maven-plugin</url>
+		<connection>https://github.com/sdrss/testng-starter-maven-plugin.git</connection>
+		<developerConnection>git@github.com:sdrss/testng-starter-maven-plugin.git</developerConnection>
+	</scm>
+	
+	<url>https://github.com/sdrss/testng-starter-maven-plugin</url>
+	
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>3.6.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
