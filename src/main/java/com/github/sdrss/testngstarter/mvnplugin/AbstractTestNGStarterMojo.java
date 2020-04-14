@@ -20,7 +20,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "dataProviderThreadCount", defaultValue = "1")
 	private Integer dataProviderThreadCount;
 	
-	@Parameter(property = "outputDirectory", defaultValue = "outputDirectory")
+	@Parameter(property = "outputDirectory", defaultValue = "test-output")
 	private String outputDirectory;
 	
 	@Parameter(property = "preserveOrder", defaultValue = "true")
