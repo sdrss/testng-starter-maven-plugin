@@ -14,9 +14,9 @@ A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)
 <pluginManagement>
 	<plugins>
 		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
+			<groupId>com.github.sdrss</groupId>
 			<artifactId>testng-starter-maven-plugin</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<executions>
 				<execution>
 				<goals>
