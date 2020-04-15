@@ -80,6 +80,7 @@ public final class TestNGStarterMainClass {
 			tng.run();
 		}
 		if (failOnError && TestNGStatus.PASS.get() != tng.getStatus()) {
+			logger.info("TestNG status is " + tng.getStatus() + " and failOnError attribute is true, abort execution");
 			Execution.abort();
 		}
 		Execution.normal();
