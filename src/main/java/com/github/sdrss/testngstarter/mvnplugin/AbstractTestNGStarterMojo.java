@@ -47,9 +47,6 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "suiteXmlFiles", required = true)
 	private String suiteXmlFiles;
 	
-	@Parameter(property = "suiteXmlFilesPostBuild", required = false)
-	private String suiteXmlFilesPostBuild;
-	
 	@Parameter(property = "listeners", defaultValue = "")
 	private String listeners;
 	
@@ -160,11 +157,6 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 			properties.put(TestParameters.suiteXmlFiles.name(), suiteXmlFiles);
 		} else {
 			properties.put(TestParameters.suiteXmlFiles.name(), "");
-		}
-		if (suiteXmlFilesPostBuild != null) {
-			properties.put(TestParameters.suiteXmlFilesPostBuild.name(), suiteXmlFilesPostBuild);
-		} else {
-			properties.put(TestParameters.suiteXmlFilesPostBuild.name(), "");
 		}
 		if (reportNGOutputDirectory != null) {
 			properties.put(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory);

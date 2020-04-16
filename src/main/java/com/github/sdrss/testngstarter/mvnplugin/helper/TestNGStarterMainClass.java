@@ -27,7 +27,6 @@ public final class TestNGStarterMainClass {
 	public static final String TESTNG_POST_PATH = "_Post";
 	static boolean isJunit = false;
 	static boolean retryFailures = false;
-	static boolean postBuildSuites = false;
 	static boolean useReportNG = false;
 	static boolean failOnError = false;
 	static String testOutputDirectory = "";
@@ -76,31 +75,6 @@ public final class TestNGStarterMainClass {
 			tngStatusExecuteFailures = getTestNGStatus(testng);
 			// Print Summary
 			printSummary();
-		}
-		// Execute Post Suites
-		if (postBuildSuites) {
-			logger.info(STRIPE);
-			logger.info("TestNG attribute '" + TestParameters.suiteXmlFilesPostBuild.name() +
-					"' is '" + Boolean.toString(postBuildSuites) + "'");
-			logger.info("Start TestNG and execute post action suites");
-			logger.info(STRIPE);
-			// Re Initialize and Run
-			testng = new TestNG();
-			Properties postProperties = new Properties();
-			postProperties.putAll(properties);
-			postProperties.setProperty(TestParameters.suiteXmlFiles.name(), properties.getProperty(TestParameters.suiteXmlFilesPostBuild.name()));
-			postProperties.setProperty(TestParameters.suiteXmlFilesPostBuild.name(), "");
-			reportNGOutputDirectory = reportNGOutputDirectory.replace(TESTNG_RETRY_PATH, "");
-			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_POST_PATH);
-			postProperties.setProperty(TestParameters.executeTestngFailedxml.name(), Boolean.FALSE.toString());
-			initTestNG(testng, postProperties);
-			if (useReportNG) {
-				initReportNG(testng, postProperties);
-			}
-			setSystemProperties(postProperties);
-			testng.run();
-			// Get Post build action status ? Should this count in case of testNG.getStatus = FAIL
-			getTestNGStatus(testng);
 		}
 		// Fail on error
 		if (checkFailOnError(failOnError, tngStatusMain, tngStatusExecuteFailures)) {
@@ -532,21 +506,6 @@ public final class TestNGStarterMainClass {
 				tng.setTestSuites(testSuites);
 			} else {
 				throw new TestNGSuiteNotFoundException("No suite files were specified");
-			}
-		}
-		
-		if (properties.get(TestParameters.suiteXmlFilesPostBuild.name()) == null) {
-			postBuildSuites = false;
-		} else {
-			try {
-				String testSuitesCommaSeparated = (String) properties.get(TestParameters.suiteXmlFilesPostBuild.name());
-				if (testSuitesCommaSeparated.isEmpty()) {
-					postBuildSuites = false;
-				} else {
-					postBuildSuites = true;
-				}
-			} catch (Exception ex) {
-				logger.debug(TestParameters.suiteXmlFilesPostBuild.name(), ex);
 			}
 		}
 		
