@@ -15,6 +15,7 @@ import org.testng.xml.XmlSuite.ParallelMode;
 import org.uncommons.reportng.HTMLReporter;
 import org.uncommons.reportng.dto.TestNGSemantics;
 
+import com.github.sdrss.testngstarter.mvnplugin.helper.exceptions.TestNGSuiteNotFoundException;
 import com.google.common.base.Strings;
 
 public final class TestNGStarterMainClass {
@@ -32,39 +33,59 @@ public final class TestNGStarterMainClass {
 	static String testOutputDirectory = "";
 	static String reportNGOutputDirectory = "";
 	
-	public static void execute(Properties properties) {
-		// Initialize
+	public static void execute(Properties properties) throws TestNGSuiteNotFoundException {
+		// Keep statuses
+		int tngStatusMain = -1;
+		int tngStatusExecuteFailures = -1;
+		
+		// Initialize and Run
+		logger.info(STRIPE);
 		logger.info("Start TestNG");
-		TestNG tng = new TestNG();
-		initTestNG(tng, properties);
+		logger.info(STRIPE);
+		TestNG testng = new TestNG();
+		initTestNG(testng, properties);
 		if (useReportNG) {
-			initReportNG(tng, properties);
+			initReportNG(testng, properties);
 		}
 		setSystemProperties(properties);
-		tng.run();
+		testng.run();
 		// Get Status
-		int status = tng.getStatus();
-		logger.info("TestNG status is : [ " + TestNGStatus.TestNGStatusGet(status) + " ] ");
+		tngStatusMain = getTestNGStatus(testng);
 		// Print Summary
 		printSummary();
+		
 		// Execute testng-failed.xml
 		if (retryFailures) {
-			logger.info("Start TestNG (" + TESTNG_RETRY_SUITE_NAME + ")");
-			tng = new TestNG();
+			logger.info(STRIPE);
+			logger.info("TestNG status is '" + testng.getStatus() + "' and '" + TestParameters.executeTestngFailedxml.name() +
+					"' attribute is '" + Boolean.toString(retryFailures) + "'");
+			logger.info("Start TestNG and execute 'testng-failed.xml' suite");
+			logger.info(STRIPE);
+			// Re Initialize and Run
+			testng = new TestNG();
 			Properties retryProperties = new Properties();
 			retryProperties.putAll(properties);
 			retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
 			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_RETRY_PATH);
-			initTestNG(tng, retryProperties);
+			initTestNG(testng, retryProperties);
 			if (useReportNG) {
-				initReportNG(tng, retryProperties);
+				initReportNG(testng, retryProperties);
 			}
 			setSystemProperties(retryProperties);
-			tng.run();
+			testng.run();
+			tngStatusExecuteFailures = getTestNGStatus(testng);
+			// Print Summary
+			printSummary();
 		}
 		// Execute Post Suites
 		if (postBuildSuites) {
-			tng = new TestNG();
+			logger.info(STRIPE);
+			logger.info("TestNG attribute '" + TestParameters.suiteXmlFilesPostBuild.name() +
+					"' is '" + Boolean.toString(postBuildSuites) + "'");
+			logger.info("Start TestNG and execute post action suites");
+			logger.info(STRIPE);
+			// Re Initialize and Run
+			testng = new TestNG();
 			Properties postProperties = new Properties();
 			postProperties.putAll(properties);
 			postProperties.setProperty(TestParameters.suiteXmlFiles.name(), properties.getProperty(TestParameters.suiteXmlFilesPostBuild.name()));
@@ -72,18 +93,42 @@ public final class TestNGStarterMainClass {
 			reportNGOutputDirectory = reportNGOutputDirectory.replace(TESTNG_RETRY_PATH, "");
 			postProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_POST_PATH);
 			postProperties.setProperty(TestParameters.executeTestngFailedxml.name(), Boolean.FALSE.toString());
-			initTestNG(tng, postProperties);
+			initTestNG(testng, postProperties);
 			if (useReportNG) {
-				initReportNG(tng, postProperties);
+				initReportNG(testng, postProperties);
 			}
 			setSystemProperties(postProperties);
-			tng.run();
+			testng.run();
+			// Get Post build action status ? Should this count in case of testNG.getStatus = FAIL
+			getTestNGStatus(testng);
 		}
-		if (failOnError && TestNGStatus.PASS.get() != tng.getStatus()) {
-			logger.info("TestNG status is " + tng.getStatus() + " and failOnError attribute is true, abort execution");
+		// Fail on error
+		if (checkFailOnError(failOnError, tngStatusMain, tngStatusExecuteFailures)) {
+			logger.info("TestNG status is '" + testng.getStatus() + "' and '" + TestParameters.failOnErrors.name() +
+					"' attribute is '" + Boolean.toString(failOnError) + "'");
+			logger.error("Abort execution");
 			Execution.abort();
 		}
 		Execution.normal();
+	}
+	
+	private static boolean checkFailOnError(boolean failOnError, int tngStatusMain, int tngStatusExecuteFailures) {
+		boolean abort = false;
+		if (failOnError) {
+			if (TestNGStatus.PASS.get() != tngStatusMain) {
+				abort = true;
+			}
+			if (tngStatusExecuteFailures > -1 && TestNGStatus.PASS.get() != tngStatusExecuteFailures) {
+				abort = false;
+			}
+		}
+		return abort;
+	}
+	
+	private static int getTestNGStatus(TestNG testng) {
+		int status = testng.getStatus();
+		logger.info("TestNG status is : '" + TestNGStatus.TestNGStatusGet(status) + "'");
+		return status;
 	}
 	
 	private static void setSystemProperties(Properties properties) {
@@ -198,7 +243,7 @@ public final class TestNGStarterMainClass {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void initTestNG(TestNG tng, Properties properties) {
+	private static void initTestNG(TestNG tng, Properties properties) throws TestNGSuiteNotFoundException {
 		List<Class<? extends ITestNGListener>> listenerClasses = new ArrayList<Class<? extends ITestNGListener>>();
 		
 		if (properties.get(TestParameters.threadPoolSize.name()) != null) {
@@ -480,13 +525,13 @@ public final class TestNGStarterMainClass {
 					String path = "./";
 					File suitePath = new java.io.File(path.concat("/").concat(temp.trim()));
 					if (!suitePath.isFile()) {
-						throw new IllegalStateException("Suite file " + temp + " is not a valid file");
+						throw new TestNGSuiteNotFoundException("Suite file " + temp + " is not a valid file");
 					}
 					testSuitesPaths.add(suitePath);
 				}
 				tng.setTestSuites(testSuites);
 			} else {
-				throw new IllegalStateException("No suite files were specified");
+				throw new TestNGSuiteNotFoundException("No suite files were specified");
 			}
 		}
 		
@@ -506,19 +551,18 @@ public final class TestNGStarterMainClass {
 		}
 		
 		// Set Listeners
-		tng.setListenerClasses(listenerClasses);
-		// Print
-		for (Class<? extends ITestNGListener> temp : listenerClasses) {
-			logger.info("Listener : " + temp.getCanonicalName());
+		if (!listenerClasses.isEmpty()) {
+			logger.info("Add Listeners");
+			// Set and Print out
+			tng.setListenerClasses(listenerClasses);
+			for (Class<? extends ITestNGListener> temp : listenerClasses) {
+				logger.info("Listener : " + temp.getCanonicalName());
+			}
+			logger.info(STRIPE);
 		}
 	}
 	
 	private static void printSummary() {
-		// For Jenkins Integration Print parsed Console output
-		// ${BUILD_LOG_REGEX, regex="<br>", linesBefore=0, linesAfter=0,
-		// maxMatches=0, showTruncatedLines=false, substText=" ",
-		// escapeHtml=true, matchedLineHtmlStyle="null", addNewline=true}
-		systemOut(STRIPE);
 		String passed = System.getProperty(TestNGSemantics.PASS);
 		if (passed == null || "null".equalsIgnoreCase(passed)) {
 			passed = "0";
@@ -540,20 +584,13 @@ public final class TestNGStarterMainClass {
 			fixed = "0";
 		}
 		// Print Title
-		systemOut("Title : " + System.getProperty(HTMLReporter.REPORTNG_TITLE));
+		logger.info("Title : " + System.getProperty(HTMLReporter.REPORTNG_TITLE));
 		if (useReportNG) {
-			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + " Fixed: " + fixed);
+			logger.info("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped + " KnownDefects: " + knownDefect + " Fixed: " + fixed);
 		} else {
-			systemOut("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped);
+			logger.info("Total Passed: " + passed + " Failures: " + failed + " Skips: " + skipped);
 		}
-		systemOut(STRIPE);
+		logger.info(STRIPE);
 	}
 	
-	public static void systemOut(String text) {
-		System.out.println(text);
-	}
-	
-	public static void systemErr(String text) {
-		System.err.println(text);
-	}
 }
