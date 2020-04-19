@@ -95,7 +95,8 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "systemProperties")
 	private List<String> systemProperties;
 	
-	public void initProperties(Properties properties) {
+	public Properties initProperties() {
+		Properties properties = new Properties();
 		if (threadPoolSize != null) {
 			properties.put(TestParameters.threadPoolSize.name(), threadPoolSize);
 		}
@@ -193,6 +194,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		if (getLog().isDebugEnabled()) {
 			getLog().debug(properties.toString());
 		}
+		return properties;
 	}
 	
 	public void execute() throws MojoExecutionException {

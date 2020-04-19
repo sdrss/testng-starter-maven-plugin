@@ -43,52 +43,59 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 	@Parameter(property = "skipTests", defaultValue = "false")
 	protected boolean skipTests;
 	
-	private final String testNGStarterMainClass = "com.github.sdrss.testngstarter.mvnplugin.helper.TestNGStarterMainClass";
-	private final String methodName = "execute";
+	private static final String TESTNGSTARTERMAINCLASS = "com.github.sdrss.testngstarter.mvnplugin.helper.TestNGStarterMainClass";
+	private static final String METHODNAME = "execute";
 	
+	@Override
 	public void execute() throws MojoExecutionException {
 		Log logger = getLog();
 		if (verifyParameters(logger)) {
-			final Properties properties = new Properties();
-			initProperties(properties);
-			IsolatedThreadGroup threadGroup = new IsolatedThreadGroup(testNGStarterMainClass);
-			Thread bootstrapThread = new Thread(threadGroup, new Runnable() {
-				public void run() {
-					try {
-						Class<?> bootClass = Thread.currentThread().getContextClassLoader().loadClass(testNGStarterMainClass);
-						MethodHandles.Lookup lookup = MethodHandles.lookup();
-						MethodHandle mainHandle = lookup.findStatic(bootClass, methodName, MethodType.methodType(void.class, Properties.class));
-						mainHandle.invoke(properties);
-					} catch (IllegalAccessException e) { // just pass it on
-						Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), new Exception("The specified mainClass doesn't contain a main method with appropriate signature.", e));
-					} catch (InvocationTargetException e) { // use the cause if available to improve the plugin execution output
-						Throwable exceptionToReport = e.getCause() != null ? e.getCause() : e;
-						Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), exceptionToReport);
-					} catch (Throwable e) { // just pass it on
-						Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), e);
-					}
-				}
-			}, testNGStarterMainClass + ".execute(properties)");
-			// Load ClassLoader
+			Properties properties = initProperties();
+			IsolatedThreadGroup isolatedThreadGroup = initThreadGroup();
+			Thread thread = initThread(isolatedThreadGroup, properties);
 			ClassLoader classLoader = getClassLoader();
-			bootstrapThread.setContextClassLoader(classLoader);
-			bootstrapThread.start();
-			joinNonDaemonThreads(threadGroup);
+			thread.setContextClassLoader(classLoader);
+			thread.start();
+			joinNonDaemonThreads(isolatedThreadGroup);
 			if (true) {
-				terminateThreads(threadGroup);
+				terminateThreads(isolatedThreadGroup);
 				try {
-					threadGroup.destroy();
+					isolatedThreadGroup.destroy();
 				} catch (IllegalThreadStateException e) {
-					getLog().warn("Couldn't destroy threadgroup " + threadGroup, e);
+					getLog().warn("Couldn't destroy threadgroup " + isolatedThreadGroup, e);
 				}
 			}
-			synchronized (threadGroup) {
-				if (threadGroup.uncaughtException != null) {
+			synchronized (isolatedThreadGroup) {
+				if (isolatedThreadGroup.uncaughtException != null) {
 					throw new MojoExecutionException("An exception occured while executing the Java class. "
-							+ threadGroup.uncaughtException.getMessage(), threadGroup.uncaughtException);
+							+ isolatedThreadGroup.uncaughtException.getMessage(), isolatedThreadGroup.uncaughtException);
 				}
 			}
 		}
+	}
+	
+	private IsolatedThreadGroup initThreadGroup() {
+		return new IsolatedThreadGroup(TESTNGSTARTERMAINCLASS);
+	}
+	
+	private Thread initThread(IsolatedThreadGroup threadGroup, Properties properties) {
+		return new Thread(threadGroup, new Runnable() {
+			public void run() {
+				try {
+					Class<?> bootClass = Thread.currentThread().getContextClassLoader().loadClass(TESTNGSTARTERMAINCLASS);
+					MethodHandles.Lookup lookup = MethodHandles.lookup();
+					MethodHandle mainHandle = lookup.findStatic(bootClass, METHODNAME, MethodType.methodType(void.class, Properties.class));
+					mainHandle.invoke(properties);
+				} catch (IllegalAccessException e) { // just pass it on
+					Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), new Exception("The specified mainClass doesn't contain a main method with appropriate signature.", e));
+				} catch (InvocationTargetException e) { // use the cause if available to improve the plugin execution output
+					Throwable exceptionToReport = e.getCause() != null ? e.getCause() : e;
+					Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), exceptionToReport);
+				} catch (Throwable e) { // just pass it on
+					Thread.currentThread().getThreadGroup().uncaughtException(Thread.currentThread(), e);
+				}
+			}
+		}, TESTNGSTARTERMAINCLASS + ".execute(properties)");
 	}
 	
 	protected boolean verifyParameters(Log logger) {
@@ -127,13 +134,13 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 		List<Path> classpathURLs = new ArrayList<>();
 		addRelevantProjectDependenciesToClasspath(classpathURLs);
 		try {
-			return LoaderFinder.find(classpathURLs, testNGStarterMainClass);
+			return LoaderFinder.find(classpathURLs, TESTNGSTARTERMAINCLASS);
 		} catch (NullPointerException | IOException e) {
 			throw new MojoExecutionException(e.getMessage(), e);
 		}
 	}
 	
-	private void addRelevantProjectDependenciesToClasspath(List<Path> path) throws MojoExecutionException {
+	private void addRelevantProjectDependenciesToClasspath(List<Path> path) {
 		getLog().debug("Project Dependencies will be included.");
 		List<Artifact> artifacts = new ArrayList<>();
 		List<Path> theClasspathFiles = new ArrayList<>();

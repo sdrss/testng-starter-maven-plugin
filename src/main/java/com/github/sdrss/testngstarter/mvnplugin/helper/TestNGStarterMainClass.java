@@ -123,7 +123,7 @@ public final class TestNGStarterMainClass {
 		}
 	}
 	
-	private static void initReportNG(TestNG tng, Properties properties) {
+	private static void initReportNG(TestNG testNG, Properties properties) {
 		if (properties.get(TestParameters.reportNGOutputDirectory.name()) != null) {
 			try {
 				System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH, (String) properties.get(TestParameters.reportNGOutputDirectory.name()));
@@ -217,12 +217,12 @@ public final class TestNGStarterMainClass {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void initTestNG(TestNG tng, Properties properties) throws TestNGSuiteNotFoundException {
+	private static void initTestNG(TestNG testNG, Properties properties) throws TestNGSuiteNotFoundException {
 		List<Class<? extends ITestNGListener>> listenerClasses = new ArrayList<Class<? extends ITestNGListener>>();
 		
 		if (properties.get(TestParameters.threadPoolSize.name()) != null) {
 			try {
-				tng.setThreadCount((Integer) (properties.get(TestParameters.threadPoolSize.name())));
+				testNG.setThreadCount((Integer) (properties.get(TestParameters.threadPoolSize.name())));
 			} catch (Exception ex) {
 				logger.debug(TestParameters.threadPoolSize.name(), ex);
 			}
@@ -230,7 +230,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.suiteThreadPoolSize.name()) != null) {
 			try {
-				tng.setSuiteThreadPoolSize((Integer) (properties.get(TestParameters.suiteThreadPoolSize.name())));
+				testNG.setSuiteThreadPoolSize((Integer) (properties.get(TestParameters.suiteThreadPoolSize.name())));
 			} catch (Exception ex) {
 				logger.debug(TestParameters.suiteThreadPoolSize.name(), ex);
 			}
@@ -238,7 +238,7 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.dataProviderThreadCount.name()) != null) {
 			try {
-				tng.setDataProviderThreadCount((Integer) (properties.get(TestParameters.dataProviderThreadCount.name())));
+				testNG.setDataProviderThreadCount((Integer) (properties.get(TestParameters.dataProviderThreadCount.name())));
 			} catch (Exception ex) {
 				logger.debug(TestParameters.dataProviderThreadCount.name(), ex);
 			}
@@ -246,23 +246,23 @@ public final class TestNGStarterMainClass {
 		
 		if (properties.get(TestParameters.outputDirectory.name()) != null) {
 			try {
-				tng.setOutputDirectory((String) properties.get(TestParameters.outputDirectory.name()));
+				testNG.setOutputDirectory((String) properties.get(TestParameters.outputDirectory.name()));
 			} catch (Exception ex) {
 				logger.debug(TestParameters.outputDirectory.name(), ex);
 				logger.debug("Set Default " + TestNG.DEFAULT_OUTPUTDIR);
-				tng.setOutputDirectory(TestNG.DEFAULT_OUTPUTDIR);
+				testNG.setOutputDirectory(TestNG.DEFAULT_OUTPUTDIR);
 			}
 		} else {
-			tng.setOutputDirectory(TestNG.DEFAULT_OUTPUTDIR);
+			testNG.setOutputDirectory(TestNG.DEFAULT_OUTPUTDIR);
 		}
-		testOutputDirectory = tng.getOutputDirectory();
+		testOutputDirectory = testNG.getOutputDirectory();
 		
 		if (properties.get(TestParameters.preserveOrder.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.preserveOrder.name())) {
-					tng.setPreserveOrder(true);
+					testNG.setPreserveOrder(true);
 				} else {
-					tng.setPreserveOrder(false);
+					testNG.setPreserveOrder(false);
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.preserveOrder.name(), ex);
@@ -272,10 +272,10 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.isJUnit.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.isJUnit.name())) {
-					tng.setJUnit(true);
+					testNG.setJUnit(true);
 					isJunit = true;
 				} else {
-					tng.setJUnit(false);
+					testNG.setJUnit(false);
 					isJunit = false;
 				}
 			} catch (Exception ex) {
@@ -288,9 +288,9 @@ public final class TestNGStarterMainClass {
 				String configFailurePolicy = (String) properties.get(TestParameters.configFailurePolicy.name());
 				if (!Strings.isNullOrEmpty(configFailurePolicy)) {
 					if (configFailurePolicy.equalsIgnoreCase(FailurePolicy.SKIP.name())) {
-						tng.setConfigFailurePolicy(FailurePolicy.SKIP);
+						testNG.setConfigFailurePolicy(FailurePolicy.SKIP);
 					} else if (configFailurePolicy.equalsIgnoreCase(FailurePolicy.CONTINUE.name())) {
-						tng.setConfigFailurePolicy(FailurePolicy.CONTINUE);
+						testNG.setConfigFailurePolicy(FailurePolicy.CONTINUE);
 					} else {
 						logger.debug("Do nothing for " + TestParameters.configFailurePolicy.name());
 					}
@@ -301,7 +301,7 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		// Disable All Listeners and enable one by one according to params
-		tng.setUseDefaultListeners(false);
+		testNG.setUseDefaultListeners(false);
 		// HTML Listener
 		if (properties.get(TestParameters.generateHtmlReport.name()) != null) {
 			try {
@@ -423,9 +423,9 @@ public final class TestNGStarterMainClass {
 			try {
 				String excludedGroupsCommaSeparated = (String) properties.get(TestParameters.excludedGroups.name());
 				if (!excludedGroupsCommaSeparated.isEmpty()) {
-					tng.setExcludedGroups(excludedGroupsCommaSeparated);
+					testNG.setExcludedGroups(excludedGroupsCommaSeparated);
 				} else {
-					tng.setExcludedGroups(null);
+					testNG.setExcludedGroups(null);
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.excludedGroups.name(), ex);
@@ -436,9 +436,9 @@ public final class TestNGStarterMainClass {
 			try {
 				String groupsCommaSeparated = (String) properties.get(TestParameters.groups.name());
 				if (!groupsCommaSeparated.isEmpty()) {
-					tng.setGroups(groupsCommaSeparated);
+					testNG.setGroups(groupsCommaSeparated);
 				} else {
-					tng.setGroups(null);
+					testNG.setGroups(null);
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.groups.name(), ex);
@@ -450,17 +450,17 @@ public final class TestNGStarterMainClass {
 				String parallel = (String) properties.get(TestParameters.parallel.name());
 				if (!Strings.isNullOrEmpty(parallel)) {
 					if (parallel.equalsIgnoreCase(ParallelMode.CLASSES.name())) {
-						tng.setParallel(ParallelMode.CLASSES);
+						testNG.setParallel(ParallelMode.CLASSES);
 					} else if (parallel.equalsIgnoreCase(ParallelMode.INSTANCES.name())) {
-						tng.setParallel(ParallelMode.INSTANCES);
+						testNG.setParallel(ParallelMode.INSTANCES);
 					} else if (parallel.equalsIgnoreCase(ParallelMode.METHODS.name())) {
-						tng.setParallel(ParallelMode.METHODS);
+						testNG.setParallel(ParallelMode.METHODS);
 					} else if (parallel.equalsIgnoreCase(ParallelMode.NONE.name())) {
-						tng.setParallel(ParallelMode.NONE);
+						testNG.setParallel(ParallelMode.NONE);
 					} else if (parallel.equalsIgnoreCase(ParallelMode.TESTS.name())) {
-						tng.setParallel(ParallelMode.TESTS);
+						testNG.setParallel(ParallelMode.TESTS);
 					} else {
-						tng.setParallel(ParallelMode.NONE);
+						testNG.setParallel(ParallelMode.NONE);
 					}
 				}
 			} catch (Exception ex) {
@@ -471,9 +471,9 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.randomizeSuites.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.randomizeSuites.name())) {
-					tng.setRandomizeSuites(true);
+					testNG.setRandomizeSuites(true);
 				} else {
-					tng.setRandomizeSuites(false);
+					testNG.setRandomizeSuites(false);
 				}
 				
 			} catch (Exception ex) {
@@ -503,7 +503,7 @@ public final class TestNGStarterMainClass {
 					}
 					testSuitesPaths.add(suitePath);
 				}
-				tng.setTestSuites(testSuites);
+				testNG.setTestSuites(testSuites);
 			} else {
 				throw new TestNGSuiteNotFoundException("No suite files were specified");
 			}
@@ -513,7 +513,7 @@ public final class TestNGStarterMainClass {
 		if (!listenerClasses.isEmpty()) {
 			logger.info("Add Listeners");
 			// Set and Print out
-			tng.setListenerClasses(listenerClasses);
+			testNG.setListenerClasses(listenerClasses);
 			for (Class<? extends ITestNGListener> temp : listenerClasses) {
 				logger.info("Listener : " + temp.getCanonicalName());
 			}
