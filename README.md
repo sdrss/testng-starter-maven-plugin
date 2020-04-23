@@ -1,6 +1,6 @@
 # testng-starter-maven-plugin
 
-A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)/[reportNG](https://github.com/sdrss/reportNG) configurable attributes.
+A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)/[reportNG](https://github.com/sdrss/reportNG) configuration attributes.
 
 ![GitHub Release Date](https://img.shields.io/github/release-date/sdrss/testng-starter-maven-plugin) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sdrss/testng-starter-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdrss/testng-starter-maven-plugin?style=blue)](https://img.shields.io/maven-central/v/com.github.sdrss/testng-starter-maven-plugin) 
@@ -25,7 +25,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 				</execution>
 				<configuration>
 				        <!-- TestNG Starter mvn plugin Configuration-->
-				        <suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
+				        <suiteXmlFiles>src/test/resources/Regression.xml</suiteXmlFiles>
 				</configuration>
 			</executions>
          	</plugin>
