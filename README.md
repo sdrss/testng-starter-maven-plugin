@@ -1,6 +1,6 @@
 # testng-starter-maven-plugin
 
-A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)/[reportNG](https://github.com/sdrss/reportNG) related attributes.
+A maven plugin to start testNG suites with all [testNG](https://testng.org/doc/)/[reportNG](https://github.com/sdrss/reportNG) configurable attributes.
 
 ![GitHub Release Date](https://img.shields.io/github/release-date/sdrss/testng-starter-maven-plugin) ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/sdrss/testng-starter-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.sdrss/testng-starter-maven-plugin?style=blue)](https://img.shields.io/maven-central/v/com.github.sdrss/testng-starter-maven-plugin) 
@@ -24,8 +24,8 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 				</goals>
 				</execution>
 				<configuration>
-				<!-- TestNG Starter mvn plugin Configuration-->
-				<suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
+				        <!-- TestNG Starter mvn plugin Configuration-->
+				        <suiteXmlFiles>src/test/resources/Suites/Sample.xml</suiteXmlFiles>
 				</configuration>
 			</executions>
          	</plugin>
@@ -37,7 +37,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
  
 **Command line usage samples** : 
  * mvn testng-starter:test
- * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MyTestNGSuite.xml -DfailFast=true -DoutputDirectory=TestNG -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
+ * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MySuite.xml -DfailFast=true -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
 
 ** ** 
 | Attribute | Default Value | Description |
