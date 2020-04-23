@@ -49,6 +49,15 @@
 	
 	<url>https://github.com/sdrss/testng-starter-maven-plugin</url>
 	
+	<licenses>
+		<license>
+			<name>Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+	
 	<build>
 		<plugins>
 			<plugin>
