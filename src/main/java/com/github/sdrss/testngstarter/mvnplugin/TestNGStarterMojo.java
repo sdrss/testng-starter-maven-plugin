@@ -186,7 +186,7 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 	private Collection<Thread> getActiveThreads(ThreadGroup threadGroup) {
 		Thread[] threads = new Thread[threadGroup.activeCount()];
 		int numThreads = threadGroup.enumerate(threads);
-		Collection<Thread> result = new ArrayList<Thread>(numThreads);
+		Collection<Thread> result = new ArrayList<>(numThreads);
 		for (int i = 0; i < threads.length && threads[i] != null; i++) {
 			result.add(threads[i]);
 		}
@@ -208,7 +208,7 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 	
 	private void terminateThreads(ThreadGroup threadGroup) {
 		long startTime = System.currentTimeMillis();
-		Set<Thread> uncooperativeThreads = new HashSet<Thread>(); // these were not responsive to interruption
+		Set<Thread> uncooperativeThreads = new HashSet<>(); // these were not responsive to interruption
 		for (Collection<Thread> threads = getActiveThreads(threadGroup); !threads.isEmpty(); threads = getActiveThreads(threadGroup), threads.removeAll(uncooperativeThreads)) {
 			// Interrupt all threads we know about as of this instant (harmless if spuriously went dead (! isAlive())
 			// or if something else interrupted it ( isInterrupted() ).
