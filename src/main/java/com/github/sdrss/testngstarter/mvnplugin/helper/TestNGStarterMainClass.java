@@ -494,16 +494,17 @@ public final class TestNGStarterMainClass {
 				}
 			}
 			if (!testSuites.isEmpty()) {
-				List<File> testSuitesPaths = new ArrayList<>(testSuites.size());
+				// Trim
+				List<String> testSuitesTrimmed = new ArrayList<>(testSuites.size());
 				for (String temp : testSuites) {
 					String path = "./";
 					File suitePath = new java.io.File(path.concat("/").concat(temp.trim()));
 					if (!suitePath.isFile()) {
 						throw new TestNGSuiteNotFoundException("Suite file " + temp + " is not a valid file");
 					}
-					testSuitesPaths.add(suitePath);
+					testSuitesTrimmed.add(temp.trim());
 				}
-				testNG.setTestSuites(testSuites);
+				testNG.setTestSuites(testSuitesTrimmed);
 			} else {
 				throw new TestNGSuiteNotFoundException("No suite files were specified");
 			}
