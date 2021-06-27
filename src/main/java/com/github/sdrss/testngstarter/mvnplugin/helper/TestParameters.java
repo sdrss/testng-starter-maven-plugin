@@ -34,6 +34,7 @@ public enum TestParameters {
 	globalTestTimeOut,
 	maxTestRetryFailures,
 	
-	systemProperties
+	systemProperties,
+	suitesSearchDirectory
 
 }

@@ -485,24 +485,49 @@ public final class TestNGStarterMainClass {
 			throw new IllegalStateException("No suite files were specified");
 		} else {
 			List<String> testSuites = new ArrayList<>();
-			if (properties.get(TestParameters.suiteXmlFiles.name()) != null) {
-				try {
-					String testSuitesCommaSeparated = (String) properties.get(TestParameters.suiteXmlFiles.name());
-					testSuites = Arrays.asList(testSuitesCommaSeparated.split(","));
-				} catch (Exception ex) {
-					logger.debug(TestParameters.suiteXmlFiles.name(), ex);
-				}
+			try {
+				String testSuitesCommaSeparated = (String) properties.get(TestParameters.suiteXmlFiles.name());
+				testSuites = Arrays.asList(testSuitesCommaSeparated.split(","));
+			} catch (Exception ex) {
+				logger.debug(TestParameters.suiteXmlFiles.name(), ex);
 			}
 			if (!testSuites.isEmpty()) {
-				// Trim
 				List<String> testSuitesTrimmed = new ArrayList<>(testSuites.size());
-				for (String temp : testSuites) {
-					String path = "./";
-					File suitePath = new java.io.File(path.concat("/").concat(temp.trim()));
-					if (!suitePath.isFile()) {
-						throw new TestNGSuiteNotFoundException("Suite file " + temp + " is not a valid file");
+				// Default Search path is current directory
+				String path = "./";
+				boolean useCustomDirectory = false;
+				if (properties.get(TestParameters.suitesSearchDirectory.name()) != null && !"".equals(properties.get(TestParameters.suitesSearchDirectory.name()))) {
+					path = properties.get(TestParameters.suitesSearchDirectory.name()).toString();
+					// If a custom suite search path 'normalize' it
+					if (!path.endsWith("/")) {
+						path = path.concat("/");
 					}
-					testSuitesTrimmed.add(temp.trim());
+					if (!path.startsWith("/") && !path.startsWith(".")) {
+						path = "/".concat(path);
+					}
+					useCustomDirectory = true;
+				}
+				for (String tempSuite : testSuites) {
+					File suitePath;
+					String suitePathName;
+					tempSuite = tempSuite.trim();
+					if (tempSuite.startsWith("/")) {
+						tempSuite = tempSuite.replaceFirst("//", "");
+					}
+					if (useCustomDirectory) {
+						suitePath = FindSuites.find(tempSuite, path);
+						if (suitePath == null) {
+							throw new TestNGSuiteNotFoundException("Suite file " + tempSuite + " not found");
+						}
+						tempSuite = suitePath.getAbsolutePath();
+					} else {
+						suitePathName = path.concat(tempSuite);
+						suitePath = new java.io.File(suitePathName);
+					}
+					if (!suitePath.isFile()) {
+						throw new TestNGSuiteNotFoundException("Suite file " + tempSuite + " is not a valid file");
+					}
+					testSuitesTrimmed.add(tempSuite.trim());
 				}
 				testNG.setTestSuites(testSuitesTrimmed);
 			} else {

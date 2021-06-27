@@ -95,6 +95,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "systemProperties")
 	private List<String> systemProperties;
 	
+	@Parameter(property = "suitesSearchDirectory", defaultValue = "")
+	private String suitesSearchDirectory;
+	
 	public Properties initProperties() {
 		Properties properties = new Properties();
 		if (threadPoolSize != null) {
@@ -190,6 +193,11 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		}
 		if (systemProperties != null) {
 			properties.put(TestParameters.systemProperties.name(), systemProperties);
+		}
+		if (suitesSearchDirectory != null) {
+			properties.put(TestParameters.suitesSearchDirectory.name(), suitesSearchDirectory);
+		} else {
+			properties.put(TestParameters.suitesSearchDirectory.name(), "");
 		}
 		if (getLog().isDebugEnabled()) {
 			getLog().debug(properties.toString());
