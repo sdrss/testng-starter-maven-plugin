@@ -16,7 +16,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 		<plugin>
 			<groupId>com.github.sdrss</groupId>
 			<artifactId>testng-starter-maven-plugin</artifactId>
-			<version>1.2.0</version>
+			<version>1.3.0</version>
 			<executions>
 				<execution>
 				<goals>
@@ -37,7 +37,8 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
  
 **Command line usage samples** : 
  * mvn testng-starter:test
- * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MySuite.xml -DfailFast=true -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
+ * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=src/test/resources/MySuite1.xml,src/test/resources/MySuite2.xml -DfailFast=true -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
+ * mvn testng-starter:test -DsystemProperties=param1:value1 -DsuiteXmlFiles=MySuite1.xml,MySuite1.xml -DsuitesSearchDirectory=src/test/resources/ -DfailFast=true -DreportNGOutputDirectory=html -DmaxTestRetryFailures=2 -DexecuteTestngFailedxml=true -DhandleKnownDefectsAsFailures=false -Dlisteners=com.mypackage.TestListener,com.mypackage.SuiteListener
 
 ** ** 
 | Attribute | Default Value | Description |
@@ -67,7 +68,8 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 |executeTestngFailedxml        | false       |Generate and run testng-failed.xml. Possible values true,false. See for more [testNG](https://testng.org/doc)|
 |showPassedConfigurations      | true        |Show passed configuration into [reportNG](https://github.com/sdrss/reportNG) html report. Possible values true,false.|
 |threadPoolSize                | 1           |Define the number of threads in the thread pool. See for more [testNG](https://testng.org/doc)|
-|suiteThreadPoolSize           | 1           | See for more [testNG](https://testng.org/doc)               |
+|suiteThreadPoolSize           | 1           |See for more [testNG](https://testng.org/doc)               |
 |suiteXmlFiles                 |             |Set the suites file names to be run ,separated by a comma. See for more [testNG](https://testng.org/doc)|
+|suitesSearchDirectory         |             |Set a directory to search for testNG suite xml files.|
 |suiteXmlFilesPostBuild        |             |Set the suites file names to be run after running suiteXmlFiles. This can be used for cleanup or even code coverage actions.|
 |systemProperties              |             |Set System properties as key:value Separated by a comma. For example : DsystemProperties=serverXML:myserver.xml |
