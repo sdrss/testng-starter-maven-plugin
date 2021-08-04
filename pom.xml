@@ -20,7 +20,7 @@
 		<!-- TestNG -->
 		<testng.version>7.4.0</testng.version>
 		<!-- ReportNG -->
-		<reportng.version>2.6.2</reportng.version>
+		<reportng.version>2.6.3</reportng.version>
 	</properties>
 
 	<distributionManagement>
