@@ -16,7 +16,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 		<plugin>
 			<groupId>com.github.sdrss</groupId>
 			<artifactId>testng-starter-maven-plugin</artifactId>
-			<version>1.3.0</version>
+			<version>1.4.0</version>
 			<executions>
 				<execution>
 				<goals>
