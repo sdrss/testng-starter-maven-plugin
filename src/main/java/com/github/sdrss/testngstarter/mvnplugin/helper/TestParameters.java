@@ -20,6 +20,7 @@ public enum TestParameters {
 	suiteXmlFiles,
 	suiteXmlFilesPostBuild,
 	executeTestngFailedxml,
+	toggleFailureIfAllTestsWereSkipped,
 	
 	generateReportNGhtmlReport,
 	reportNGOutputDirectory,
