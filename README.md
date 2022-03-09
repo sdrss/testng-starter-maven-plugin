@@ -44,7 +44,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
 |configFailurePolicy           | NONE        |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE. See for more [testNG](https://testng.org/doc)|
-|dataProviderThreadCount       |             |               |
+|dataProviderThreadCount       |             |See for more [testNG](https://testng.org/doc)|
 |excludedGroups                |             |Define which groups will be excluded from this run. Separated by a comma. See for more [testNG](https://testng.org/doc)|
 |failFast                      | false       |Fail execution upon first test failure. The rest of the execution will be skipped. Possible values true,false. See for more [reportNG](https://github.com/sdrss/reportNG)|
 |failOnErrors                  | false       |System.exit -1 in case of test failures. Possible values true,false. See for more [reportNG](https://github.com/sdrss/reportNG)|
