@@ -459,8 +459,6 @@ public final class TestNGStarterMainClass {
 						testNG.setParallel(ParallelMode.NONE);
 					} else if (parallel.equalsIgnoreCase(ParallelMode.TESTS.name())) {
 						testNG.setParallel(ParallelMode.TESTS);
-					} else {
-						testNG.setParallel(ParallelMode.NONE);
 					}
 				}
 			} catch (Exception ex) {
