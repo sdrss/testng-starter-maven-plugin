@@ -44,7 +44,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 | Attribute | Default Value | Description |
 |-----------|-------------|---------------|
 |configFailurePolicy           | NONE        |Sets the policy for whether or not to ever invoke a configuration method again after it has failed once. Possible values are SKIP,CONTINUE. See for more [testNG](https://testng.org/doc)|
-|dataProviderThreadCount       |  1          |               |
+|dataProviderThreadCount       |             |               |
 |excludedGroups                |             |Define which groups will be excluded from this run. Separated by a comma. See for more [testNG](https://testng.org/doc)|
 |failFast                      | false       |Fail execution upon first test failure. The rest of the execution will be skipped. Possible values true,false. See for more [reportNG](https://github.com/sdrss/reportNG)|
 |failOnErrors                  | false       |System.exit -1 in case of test failures. Possible values true,false. See for more [reportNG](https://github.com/sdrss/reportNG)|
@@ -67,8 +67,8 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 |maxTestRetryFailures          | 0           |Define the max number of retries for a test. In case of 0 then retry Listener is not invoked. See for more [reportNG](https://github.com/sdrss/reportNG)|
 |executeTestngFailedxml        | false       |Generate and run testng-failed.xml. Possible values true,false. See for more [testNG](https://testng.org/doc)|
 |showPassedConfigurations      | true        |Show passed configuration into [reportNG](https://github.com/sdrss/reportNG) html report. Possible values true,false.|
-|threadPoolSize                | 1           |Define the number of threads in the thread pool. See for more [testNG](https://testng.org/doc)|
-|suiteThreadPoolSize           | 1           |See for more [testNG](https://testng.org/doc)               |
+|threadPoolSize                |             |Define the number of threads in the thread pool. See for more [testNG](https://testng.org/doc)|
+|suiteThreadPoolSize           |             |See for more [testNG](https://testng.org/doc)               |
 |suiteXmlFiles                 |             |Set the suites file names to be run ,separated by a comma. See for more [testNG](https://testng.org/doc)|
 |suitesSearchDirectory         |             |Set a directory to search for testNG suite xml files.|
 |suiteXmlFilesPostBuild        |             |Set the suites file names to be run after running suiteXmlFiles. This can be used for cleanup or even code coverage actions.|
