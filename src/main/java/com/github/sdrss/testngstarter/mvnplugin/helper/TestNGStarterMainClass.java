@@ -479,6 +479,19 @@ public final class TestNGStarterMainClass {
 			}
 		}
 		
+		if (properties.get(TestParameters.toggleFailureIfAllTestsWereSkipped.name()) != null) {
+			try {
+				if ((boolean) properties.get(TestParameters.toggleFailureIfAllTestsWereSkipped.name())) {
+					testNG.toggleFailureIfAllTestsWereSkipped(true);
+				} else {
+					testNG.toggleFailureIfAllTestsWereSkipped(false);
+				}
+				
+			} catch (Exception ex) {
+				logger.debug(TestParameters.toggleFailureIfAllTestsWereSkipped.name(), ex);
+			}
+		}
+		
 		if (properties.get(TestParameters.suiteXmlFiles.name()) == null) {
 			throw new IllegalStateException("No suite files were specified");
 		} else {

@@ -59,6 +59,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "randomizeSuites", defaultValue = "false")
 	private Boolean randomizeSuites;
 	
+	@Parameter(property = "toggleFailureIfAllTestsWereSkipped")
+	private Boolean toggleFailureIfAllTestsWereSkipped;
+	
 	@Parameter(property = "generateReportNGhtmlReport", defaultValue = "true")
 	private Boolean generateReportNGhtmlReport;
 	
@@ -156,6 +159,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		}
 		if (randomizeSuites != null) {
 			properties.put(TestParameters.randomizeSuites.name(), randomizeSuites);
+		}
+		if (toggleFailureIfAllTestsWereSkipped != null) {
+			properties.put(TestParameters.toggleFailureIfAllTestsWereSkipped.name(), toggleFailureIfAllTestsWereSkipped);
 		}
 		if (suiteXmlFiles != null) {
 			properties.put(TestParameters.suiteXmlFiles.name(), suiteXmlFiles);
