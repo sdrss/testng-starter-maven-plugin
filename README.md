@@ -59,7 +59,7 @@ Check Maven Repository releases [here](https://mvnrepository.com/artifact/com.gi
 |listeners                     |             |Custom Listeners invoked into testNG run.Separated by a comma. See for more [testNG](https://testng.org/doc)|
 |logOutputReport               | false       |Generate a log output report. Possible values true,false. See for more [reportNG](https://github.com/sdrss/reportNG)|
 |outputDirectory               | test-output |Sets the output directory where the reports will be created.See for more [reportNG](https://github.com/sdrss/reportNG)|
-|parallel                      | NONE        |Parallel execution. Possible values are CLASSES,INSTANCES,METHODS,TEST. See for more [testNG](https://testng.org/doc)|
+|parallel                      | NONE        |Parallel execution. Possible values are CLASSES,INSTANCES,METHODS,TESTS. See for more [testNG](https://testng.org/doc)|
 |preserveOrder                 | true        |Possible values true,false. See for more [testNG](https://testng.org/doc)|
 |randomizeSuites               | false       |Possible values true,false. See for more [testNG](https://testng.org/doc)|
 |reportNGhtmlReportTitle       |             |ReportNG html report title. See for more [reportNG](https://github.com/sdrss/reportNG)|
