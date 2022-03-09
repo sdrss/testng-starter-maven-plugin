@@ -11,13 +11,13 @@ import com.github.sdrss.testngstarter.mvnplugin.helper.TestParameters;
 
 public class AbstractTestNGStarterMojo extends AbstractMojo {
 	
-	@Parameter(property = "threadPoolSize", defaultValue = "1")
+	@Parameter(property = "threadPoolSize")
 	private Integer threadPoolSize;
 	
-	@Parameter(property = "suiteThreadPoolSize", defaultValue = "1")
+	@Parameter(property = "suiteThreadPoolSize")
 	private Integer suiteThreadPoolSize;
 	
-	@Parameter(property = "dataProviderThreadCount", defaultValue = "1")
+	@Parameter(property = "dataProviderThreadCount")
 	private Integer dataProviderThreadCount;
 	
 	@Parameter(property = "outputDirectory", defaultValue = "test-output")
@@ -53,7 +53,7 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "isJUnit", defaultValue = "false")
 	private Boolean isJUnit;
 	
-	@Parameter(property = "parallel", defaultValue = "NONE")
+	@Parameter(property = "parallel")
 	private String parallel;
 	
 	@Parameter(property = "randomizeSuites", defaultValue = "false")
