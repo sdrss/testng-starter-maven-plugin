@@ -60,21 +60,27 @@ public final class TestNGStarterMainClass {
 					"' attribute is '" + Boolean.toString(retryFailures) + "'");
 			logger.info("Start TestNG and execute 'testng-failed.xml' suite");
 			logger.info(STRIPE);
-			// Re Initialize and Run
-			testng = new TestNG();
-			Properties retryProperties = new Properties();
-			retryProperties.putAll(properties);
-			retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
-			retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_RETRY_PATH);
-			initTestNG(testng, retryProperties);
-			if (useReportNG) {
-				initReportNG(testng, retryProperties);
+			File f = new File(testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
+			if (f.exists() && !f.isDirectory()) {
+				// Re Initialize and Run
+				testng = new TestNG();
+				Properties retryProperties = new Properties();
+				retryProperties.putAll(properties);
+				retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
+				retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_RETRY_PATH);
+				initTestNG(testng, retryProperties);
+				if (useReportNG) {
+					initReportNG(testng, retryProperties);
+				}
+				setSystemProperties(retryProperties);
+				testng.run();
+				tngStatusExecuteFailures = getTestNGStatus(testng);
+				// Print Summary
+				printSummary();
+			} else {
+				logger.info("Not found " + testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
 			}
-			setSystemProperties(retryProperties);
-			testng.run();
-			tngStatusExecuteFailures = getTestNGStatus(testng);
-			// Print Summary
-			printSummary();
+			
 		}
 		// Fail on error
 		if (checkFailOnError(failOnError, tngStatusMain, tngStatusExecuteFailures)) {
