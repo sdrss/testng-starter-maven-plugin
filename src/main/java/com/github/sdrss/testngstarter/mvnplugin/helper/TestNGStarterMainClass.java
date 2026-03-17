@@ -204,10 +204,10 @@ public final class TestNGStarterMainClass {
 					System.setProperty(HTMLReporter.REPORTNG_TITLE, title);
 				}
 			} catch (Exception ex) {
-				logger.debug(TestParameters.failFast.name(), ex);
+				logger.debug(TestParameters.reportNGhtmlReportTitle.name(), ex);
 			}
 		}
-		
+
 		if (properties.get(TestParameters.failOnErrors.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.failOnErrors.name())) {
