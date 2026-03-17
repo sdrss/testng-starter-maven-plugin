@@ -98,7 +98,7 @@ public final class TestNGStarterMainClass {
 			if (TestNGStatus.PASS.get() != tngStatusMain) {
 				abort = true;
 			}
-			if (tngStatusExecuteFailures > -1 && TestNGStatus.PASS.get() != tngStatusExecuteFailures) {
+			if (tngStatusExecuteFailures > -1 && TestNGStatus.PASS.get() == tngStatusExecuteFailures) {
 				abort = false;
 			}
 		}
@@ -137,7 +137,7 @@ public final class TestNGStarterMainClass {
 				logger.debug(TestParameters.reportNGOutputDirectory.name(), ex);
 			}
 		} else {
-			System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH, (String) properties.get(TestParameters.reportNGOutputDirectory.name()));
+			System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH, "html");
 		}
 		reportNGOutputDirectory = System.getProperty(HTMLReporter.LOG_OUTPUT_REPORT_PATH);
 		
