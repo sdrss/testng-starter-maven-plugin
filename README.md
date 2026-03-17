@@ -170,6 +170,7 @@ All parameters can be set via `<configuration>` in `pom.xml` or as `-D` command-
 | `globalTestTimeOut` | `0` | Maximum duration (milliseconds) for each test method. Set to `0` to disable the timeout listener. See [ReportNG](https://github.com/sdrss/reportNG). |
 | `failFast` | `false` | Abort the entire test run on the first test failure. Remaining tests are marked as skipped. Requires ReportNG listener (registered automatically). See [ReportNG](https://github.com/sdrss/reportNG). |
 | `failOnErrors` | `false` | Exit with code `-1` (build failure) when any test failures are detected, even if Maven would otherwise consider the build successful. See [ReportNG](https://github.com/sdrss/reportNG). |
+| `cleanupDaemonThreads` | `true` | When `true`, any daemon threads still running after the test execution completes are interrupted and the thread group is destroyed. Set to `false` if you need background threads (e.g. async report writers or thread pools started by listeners) to finish naturally before the build continues — prevents truncated or incomplete report output. |
 
 ### ReportNG HTML Report
 

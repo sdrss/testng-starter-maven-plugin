@@ -42,6 +42,9 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 	
 	@Parameter(property = "skipTests", defaultValue = "false")
 	protected boolean skipTests;
+
+	@Parameter(property = "cleanupDaemonThreads", defaultValue = "true")
+	protected boolean cleanupDaemonThreads;
 	
 	private static final String TESTNGSTARTERMAINCLASS = "com.github.sdrss.testngstarter.mvnplugin.helper.TestNGStarterMainClass";
 	private static final String METHODNAME = "execute";
@@ -57,7 +60,7 @@ public class TestNGStarterMojo extends AbstractTestNGStarterMojo {
 			thread.setContextClassLoader(classLoader);
 			thread.start();
 			joinNonDaemonThreads(isolatedThreadGroup);
-			if (true) {
+			if (cleanupDaemonThreads) {
 				terminateThreads(isolatedThreadGroup);
 				try {
 					isolatedThreadGroup.destroy();
