@@ -144,9 +144,9 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.showPassedConfigurations.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.showPassedConfigurations.name())) {
-					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, Boolean.TRUE.toString());
+					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS_MODE, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS, Boolean.FALSE.toString());
+					System.setProperty(HTMLReporter.SHOW_PASSED_CONFIGURATIONS_MODE, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.showPassedConfigurations.name(), ex);
@@ -156,9 +156,9 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.handleKnownDefectsAsFailures.name()) != null) {
 			try {
 				if (!(boolean) properties.get(TestParameters.handleKnownDefectsAsFailures.name())) {
-					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, Boolean.TRUE.toString());
+					System.setProperty(HTMLReporter.KWOWN_DEFECTS_MODE, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.KWOWNDEFECTSMODE, Boolean.FALSE.toString());
+					System.setProperty(HTMLReporter.KWOWN_DEFECTS_MODE, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.handleKnownDefectsAsFailures.name(), ex);
@@ -180,9 +180,9 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.logOutputReport.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.logOutputReport.name())) {
-					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, Boolean.TRUE.toString());
+					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_MODE, Boolean.TRUE.toString());
 				} else {
-					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT, Boolean.FALSE.toString());
+					System.setProperty(HTMLReporter.LOG_OUTPUT_REPORT_MODE, Boolean.FALSE.toString());
 				}
 			} catch (Exception ex) {
 				logger.debug(TestParameters.logOutputReport.name(), ex);

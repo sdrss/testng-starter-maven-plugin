@@ -83,6 +83,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 	@Parameter(property = "handleKnownDefectsAsFailures", defaultValue = "false")
 	private Boolean handleKnownDefectsAsFailures;
 	
+	@Parameter(property = "escapeOutput", defaultValue = "true")
+	private Boolean escapeOutput;
+
 	@Parameter(property = "logOutputReport", defaultValue = "false")
 	private Boolean logOutputReport;
 	
@@ -132,6 +135,9 @@ public class AbstractTestNGStarterMojo extends AbstractMojo {
 		}
 		if (generateReportNGhtmlReport != null) {
 			properties.put(TestParameters.generateReportNGhtmlReport.name(), generateReportNGhtmlReport);
+		}
+		if (escapeOutput != null) {
+			properties.put(TestParameters.escapeOutput.name(), escapeOutput);
 		}
 		if (logOutputReport != null) {
 			properties.put(TestParameters.logOutputReport.name(), logOutputReport);
