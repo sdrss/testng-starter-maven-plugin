@@ -207,7 +207,7 @@ public final class TestNGStarterMainClass {
 				logger.debug(TestParameters.reportNGhtmlReportTitle.name(), ex);
 			}
 		}
-
+		
 		if (properties.get(TestParameters.failOnErrors.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.failOnErrors.name())) {
@@ -278,10 +278,10 @@ public final class TestNGStarterMainClass {
 		if (properties.get(TestParameters.isJUnit.name()) != null) {
 			try {
 				if ((boolean) properties.get(TestParameters.isJUnit.name())) {
-					testNG.setJUnit(true);
+					// testNG.setJUnit(true);
 					isJunit = true;
 				} else {
-					testNG.setJUnit(false);
+					// testNG.setJUnit(false);
 					isJunit = false;
 				}
 			} catch (Exception ex) {
@@ -313,7 +313,6 @@ public final class TestNGStarterMainClass {
 			try {
 				if ((boolean) properties.get(TestParameters.generateHtmlReport.name())) {
 					listenerClasses.add(org.testng.reporters.SuiteHTMLReporter.class);
-					listenerClasses.add(org.testng.reporters.EmailableReporter.class);
 					listenerClasses.add(org.testng.reporters.EmailableReporter2.class);
 					listenerClasses.add(org.testng.reporters.TestHTMLReporter.class);
 				}
