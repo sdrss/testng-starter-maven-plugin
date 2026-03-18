@@ -44,7 +44,7 @@ The **testng-starter-maven-plugin** bridges Maven's build lifecycle and the Test
         <plugin>
             <groupId>com.github.sdrss</groupId>
             <artifactId>testng-starter-maven-plugin</artifactId>
-            <version>2.0.0</version>
+            <version>2.1.0</version>
             <executions>
                 <execution>
                     <goals>
