@@ -182,6 +182,7 @@ All parameters can be set via `<configuration>` in `pom.xml` or as `-D` command-
 | `showPassedConfigurations` | `true` | Include passed `@Before*` / `@After*` configuration methods in the HTML report. See [ReportNG](https://github.com/sdrss/reportNG). |
 | `logOutputReport` | `false` | Append captured log output to the HTML report. See [ReportNG](https://github.com/sdrss/reportNG). |
 | `handleKnownDefectsAsFailures` | `false` | When `true`, tests annotated with `@KnownDefect` are treated as failures rather than a distinct status. See [ReportNG](https://github.com/sdrss/reportNG). |
+| `escapeOutput` | `false` | When `true`, HTML special characters (`<`, `>`, `&`, etc.) in test output are escaped before being written into the ReportNG HTML report. Set to `false` to render raw HTML in test output — useful when tests intentionally produce HTML snippets that should appear formatted in the report. See [ReportNG](https://github.com/sdrss/reportNG). |
 
 ### Additional Report Formats
 
