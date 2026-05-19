@@ -66,8 +66,9 @@ public final class TestNGStarterMainClass {
 				testng = new TestNG();
 				Properties retryProperties = new Properties();
 				retryProperties.putAll(properties);
-				retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), testOutputDirectory + "/" + TESTNG_RETRY_SUITE_NAME);
+				retryProperties.setProperty(TestParameters.suiteXmlFiles.name(), f.getAbsolutePath());
 				retryProperties.setProperty(TestParameters.reportNGOutputDirectory.name(), reportNGOutputDirectory + TESTNG_RETRY_PATH);
+				retryProperties.setProperty(TestParameters.suitesSearchDirectory.name(), "");
 				initTestNG(testng, retryProperties);
 				if (useReportNG) {
 					initReportNG(testng, retryProperties);
@@ -537,8 +538,12 @@ public final class TestNGStarterMainClass {
 						}
 						tempSuite = suitePath.getAbsolutePath();
 					} else {
-						suitePathName = path.concat(tempSuite);
-						suitePath = new java.io.File(suitePathName);
+						if (new File(tempSuite).isAbsolute()) {
+							suitePath = new File(tempSuite);
+						} else {
+							suitePathName = path.concat(tempSuite);
+							suitePath = new java.io.File(suitePathName);
+						}
 					}
 					if (!suitePath.isFile()) {
 						throw new TestNGSuiteNotFoundException("Suite file " + tempSuite + " is not a valid file");
